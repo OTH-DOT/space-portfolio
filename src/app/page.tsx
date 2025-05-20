@@ -1,4 +1,9 @@
+'use client';
+
 import Image from "next/image";
+import { motion } from 'framer-motion';
+import { Rocket } from 'lucide-react';
+
 
 export default function Home() {
   return (
@@ -13,6 +18,14 @@ export default function Home() {
           priority
         />
         <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
+          <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+        className="bg-black text-white px-6 py-4 rounded-xl shadow-xl"
+      >
+        🎉 Framer Motion is working! <Rocket />
+      </motion.div>
           <li className="mb-2 tracking-[-.01em]">
             Get started by editing{" "}
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
