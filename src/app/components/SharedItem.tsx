@@ -1,14 +1,28 @@
-import { motion } from "framer-motion";
+'use client';
+import { motion } from 'framer-motion';
+import EarthCanvas from './canvas/Earth';
 
-const SharedItem = ({ inView }) => {
+const sectionPositions = {
+  hero: { x: '20vw', y: '30vh', visible: true },
+  about: { x: '80vw', y: '40vh', visible: true },
+  skills: { visible: false },
+  projects: { visible: false },
+  contact: { visible: false },
+};
+
+const SharedItem = ({ section }) => {
+  const config = sectionPositions[section] || { visible: false };
+
+  if (!config.visible) return null;
+
   return (
     <motion.div
-      animate={{ x: inView ? "70vw" : "70vw" , y:inView ? "30vh" : "20vh"}}
-      initial={{ x: "0vw" }}
+      animate={{ x: config.x, y: config.y }}
+      initial={{ x: 0, y: 0 }}
       transition={{ duration: 1 }}
-      className="fixed top-1/2 transform z-10 -translate-y-1/2"
+      className="fixed z-10 w-32 h-32 sm:w-40 sm:h-40 md:w-52 md:h-52"
     >
-      <div className="w-32 h-32 bg-orange-500 rounded-full" />
+      <EarthCanvas />
     </motion.div>
   );
 };

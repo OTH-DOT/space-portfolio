@@ -127,3 +127,42 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom scrollbar styles */
+:root {
+  --scrollbar-thumb: #7c3aed; /* Purple-600 */
+  --scrollbar-track: #1e1e2d; /* Dark background */
+}
+
+/* Light mode variation */
+@media (prefers-color-scheme: light) {
+  :root {
+    --scrollbar-thumb: #8b5cf6; /* Purple-500 */
+    --scrollbar-track: #f3f4f6; /* Gray-100 */
+  }
+}
+
+/* Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6d28d9; /* Purple-700 */
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
