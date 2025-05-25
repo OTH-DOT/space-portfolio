@@ -9,7 +9,7 @@ export default function Home() {
   return (
       <div className="bg-white text-black scroll-smooth">
       <Header />
-      <main className="pt-20">
+      <main className="overflow-hidden">
         <Sections />
       </main>
       <Footer />

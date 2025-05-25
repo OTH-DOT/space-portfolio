@@ -9,7 +9,7 @@ const navLinks = ['home', 'about', 'skills', 'projects', 'works', 'contact'];
 const Header = () => {
   return (
     <header className="fixed top-0 left-0 w-full bg-white shadow-md z-50">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <h1 className="text-xl font-bold uppercase">My Portfolio</h1>
         <nav className="hidden md:flex space-x-6">
           {navLinks.map((link) => (
