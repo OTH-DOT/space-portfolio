@@ -5,8 +5,10 @@ import Hero from '../components/Hero';
 import About from '../components/About';
 import Skills from '../components/Skills';
 import Projects from '../components/Projects';
+import Works from '../components/Works';
 import Contact from '../components/Contact';
 import SharedItem from '../components/SharedItem';
+import StarsCanvas from '../components/canvas/Stars';
 
 const Sections = () => {
   const [currentSection, setCurrentSection] = useState('hero');
@@ -22,12 +24,15 @@ const Sections = () => {
     else if (aboutInView) setCurrentSection('about');
     else if (skillsInView) setCurrentSection('skills');
     else if (projectsInView) setCurrentSection('projects');
+    else if (projectsInView) setCurrentSection('works');
     else if (contactInView) setCurrentSection('contact');
   }, [heroInView, aboutInView, skillsInView, projectsInView, contactInView]);
 
   return (
     <>
       {/* <SharedItem section={currentSection} /> */}
+      <StarsCanvas />
+      
 
       <section ref={heroRef}>
         <Hero />
@@ -40,6 +45,9 @@ const Sections = () => {
       </section>
       <section ref={projectsRef}>
         <Projects />
+      <section ref={projectsRef}>
+        <Works />
+      </section>
       </section>
       <section ref={contactRef}>
         <Contact />

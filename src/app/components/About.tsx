@@ -2,13 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Copy, Linkedin, Mail, Phone } from 'lucide-react';
 import EarthCanvas from './canvas/Earth';
+import Astronaut from './animations/Astronaut';
+import StarsCanvas from './canvas/Stars';
 
 // React DnD implementation using HTML5 drag API for smooth dragging
 const About = ({ innerRef }) => {
   const contacts = [
-    { id: 1, type: 'email', value: 'your@email.com', label: 'Email' },
-    { id: 2, type: 'phone', value: '+1234567890', label: 'Phone' },
-    { id: 3, type: 'linkedin', value: 'linkedin.com/in/yourprofile', label: 'LinkedIn' }
+    { id: 1, type: 'email', value: 'othmanemakkour8@gmail.com', label: 'Email' },
+    { id: 2, type: 'phone', value: '+212709707709', label: 'Phone' },
+    { id: 3, type: 'linkedin', value: 'https://www.linkedin.com/in/othmane-makkour-79a81a245/', label: 'LinkedIn' }
   ];
 
   const [selectedId, setSelectedId] = useState(1);
@@ -273,11 +275,12 @@ const About = ({ innerRef }) => {
 
   return (
     <section id="about" ref={innerRef} className="min-h-screen flex items-center justify-center p-4 md:p-8">
-      <div className="w-full container mx-auto flex flex-col md:flex-row gap-4 h-auto md:h-[80vh]">
+      {/* <StarsCanvas /> */}
+      <div className="w-full absolute z-20 container mx-auto flex flex-col md:flex-row gap-4 h-auto md:h-[80vh]">
         {/* Left side */}
         <div className="flex flex-col w-full md:w-1/3 gap-4">
           <div className="h-64 md:h-[70%] bg-transparent rounded-lg p-6 flex items-center justify-center">
-            Left Top
+            <Astronaut />
           </div>
           <div className="h-48 md:h-[30%] bg-gradient-to-br from-gray-900 to-black rounded-lg p-6 flex gap-4 items-center justify-center ">
             <div className='flex flex-col gap-4 items-center'>

@@ -166,3 +166,37 @@ html {
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
+
+/* skills */
+
+.skill:hover {
+  background-color: var(--skill-color);
+  box-shadow: 0px 0px 20px var(--skill-color);
+  color: black;
+  font-weight: bold;
+}
+.skill:hover p {
+  color: black;
+}
+
+/********** typography ************/
+
+.headline-1,
+.headline-2 {
+  @apply max-w-max;
+  background: -webkit-linear-gradient(0deg, #fafafa, #a1a1a1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.headline-1 {
+  @apply text-5xl leading-tight font-semibold lg:text-[55px] lg:leading-[1.15]
+}
+
+.headline-2 {
+  @apply text-3xl lg:text-4xl lg:leading-tight font-semibold
+}
+
+.title-1 {
+  @apply text-[22px] font-normal
+}

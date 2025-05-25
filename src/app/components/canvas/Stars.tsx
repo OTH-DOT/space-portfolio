@@ -159,7 +159,7 @@ const StarsCanvas = () => {
   return (
     <div 
       ref={mountRef}
-      className="top-0 left-0 w-full h-full"
+      className="top-0 fixed left-0 w-full h-full"
       style={{ background: '#000000' }}
     />
   )
