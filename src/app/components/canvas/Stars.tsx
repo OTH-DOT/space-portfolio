@@ -22,7 +22,7 @@ const StarsCanvas = () => {
 
     // Create star geometry with varying brightness
     const starGeometry = new THREE.BufferGeometry()
-    const starCount = 2000
+    const starCount = 8000
     const positions = new Float32Array(starCount * 3)
     const colors = new Float32Array(starCount * 3)
     const sizes = new Float32Array(starCount)
@@ -59,7 +59,28 @@ const StarsCanvas = () => {
     starGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
     starGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
 
-    // Create star material with glow effect
+    // Create circular texture for rounded stars
+    const canvas = document.createElement('canvas')
+    canvas.width = 32
+    canvas.height = 32
+    const context = canvas.getContext('2d')
+    
+    // Create radial gradient for circular star
+    const gradient = context.createRadialGradient(
+      canvas.width / 2, canvas.height / 2, 0,
+      canvas.width / 2, canvas.height / 2, canvas.width / 2
+    )
+    gradient.addColorStop(0, 'rgba(255,255,255,1)')
+    gradient.addColorStop(0.2, 'rgba(255,255,255,0.8)')
+    gradient.addColorStop(0.4, 'rgba(255,255,255,0.4)')
+    gradient.addColorStop(1, 'rgba(255,255,255,0)')
+    
+    context.fillStyle = gradient
+    context.fillRect(0, 0, canvas.width, canvas.height)
+    
+    const texture = new THREE.CanvasTexture(canvas)
+
+    // Create star material with glow effect and circular shape
     const starMaterial = new THREE.PointsMaterial({
       color: 0xffffff,
       size: 0.004,
@@ -68,7 +89,8 @@ const StarsCanvas = () => {
       opacity: 0.9,
       blending: THREE.AdditiveBlending,
       vertexColors: true,
-      depthWrite: false
+      depthWrite: false,
+      map: texture
     })
 
     // Create points mesh

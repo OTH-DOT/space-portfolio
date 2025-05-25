@@ -7,7 +7,7 @@ import Sections from "./sections";
 
 export default function Home() {
   return (
-      <div className="bg-white text-black scroll-smooth">
+      <div className="bg-black text-white scroll-smooth">
       <Header />
       <main className="overflow-hidden">
         <Sections />
