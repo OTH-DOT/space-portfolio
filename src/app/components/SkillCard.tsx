@@ -6,32 +6,53 @@ interface SkillCardProps {
   label: string;
   desc: string;
   classes?: string;
+  isActive?: boolean;
+  onHover?: () => void;
+  onLeave?: () => void;
 }
-
-const SkillCard: React.FC<SkillCardProps> = ({ 
-  color, 
-  imgSrc, 
-  label, 
-  desc, 
-  classes 
+const SkillCard: React.FC<SkillCardProps> = ({
+  color,
+  imgSrc,
+  label,
+  desc,
+  classes,
+  isActive = false,
+  onHover,
+  onLeave
 }) => {
   return (
-    <div 
+    <div
       style={{ '--skill-color': color } as React.CSSProperties}
-      className={`skill flex items-center gap-3 ring-2 ring-inset ring-zinc-50/10 rounded-2xl p-3 hover:active focus:active active:active transition-colors group ${classes || ''}`}
+      className={`skill flex items-center gap-3 ring-2 ring-inset ring-zinc-50/10 rounded-2xl p-3 transition-all duration-300 group ${classes || ''} ${
+        isActive 
+          ? 'skill-active' 
+          : 'hover:skill-hover'
+      }`}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
     >
-      <figure className='flex items-center justify-center bg-zinc-700/50 rounded-lg overflow-hidden w-12 h-12 p-2 group-hover:bg-zinc-900 transition-colors'>
-        <img 
-          src={imgSrc} 
+      <figure className={`flex items-center justify-center rounded-lg overflow-hidden w-12 h-12 p-2 transition-colors duration-300 ${
+        isActive 
+          ? 'bg-black' 
+          : 'bg-zinc-700/50 group-hover:bg-zinc-900'
+      }`}>
+        <img
+          src={imgSrc}
           alt={label}
           width={32}
-          height={32}  
+          height={32}
         />
       </figure>
-
+      
       <div>
-        <h3>{label}</h3>
-        <p className="text-zinc-400 text-sm">
+        <h3 className={`transition-colors duration-300 ${
+          isActive ? 'text-black font-bold' : 'text-white'
+        }`}>
+          {label}
+        </h3>
+        <p className={`text-sm transition-colors duration-300 ${
+          isActive ? 'text-black' : 'text-zinc-400'
+        }`}>
           {desc}
         </p>
       </div>

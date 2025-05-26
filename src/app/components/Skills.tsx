@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SkillCard from './SkillCard';
 
 const skillItem = [
@@ -88,12 +88,46 @@ const skillItem = [
   },
 ];
 
-const Skills = ({innerRef}) => {
-  return (
-    <section id="skills" ref={innerRef} className="min-h-screen flex items-center justify-center p-4 md:p-8">
-      <div className="container absolute z-20">
+const Skills = ({ innerRef }) => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isAutoRunning, setIsAutoRunning] = useState(true);
 
-        <h2 className='headline-2 reveal-up'>
+  // Auto-cycle through cards randomly
+  useEffect(() => {
+    if (!isAutoRunning) return;
+
+    const interval = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * skillItem.length);
+      setActiveIndex(randomIndex);
+    }, 1000); // Change every 1.5 seconds
+
+    return () => clearInterval(interval);
+  }, [isAutoRunning]);
+
+  const handleCardHover = (index: number) => {
+    setHoveredIndex(index);
+    setIsAutoRunning(false); // Stop auto-cycling
+  };
+
+  const handleCardLeave = () => {
+    setHoveredIndex(null);
+    setIsAutoRunning(true); // Resume auto-cycling
+  };
+
+  const getCardActiveState = (index: number) => {
+    // If a card is being hovered, only that card is active
+    if (hoveredIndex !== null) {
+      return hoveredIndex === index;
+    }
+    // Otherwise, use the auto-cycling active index
+    return activeIndex === index;
+  };
+
+  return (
+    <section id="skills" ref={innerRef} className="min-h-screen flex items-center justify-center p-4 md:p-8 bg-zinc-950">
+      <div className="container absolute z-20">
+        <h2 className='text-3xl font-bold text-white mb-4 reveal-up'>
           Essential Tools I use
         </h2>
 
@@ -102,19 +136,24 @@ const Skills = ({innerRef}) => {
           high-performing websites & applications.
         </p>
 
-        <div className={"grid gap-3 grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))]"}>
-          {
-            skillItem.map(({color, imgSrc, label, desc}, key) => (
-              <SkillCard 
-                classes="reveal-up" 
-                color={color} key={key} imgSrc={imgSrc} label={label} desc={desc} />
-            ))
-          }
+        <div className="grid gap-3 grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))]">
+          {skillItem.map(({ color, imgSrc, label, desc }, index) => (
+            <SkillCard
+              classes="reveal-up"
+              color={color}
+              key={index}
+              imgSrc={imgSrc}
+              label={label}
+              desc={desc}
+              isActive={getCardActiveState(index)}
+              onHover={() => handleCardHover(index)}
+              onLeave={handleCardLeave}
+            />
+          ))}
         </div>
-
-      </div>
+      </div>  
     </section>
-  )
-}
+  );
+};
 
-export default Skills
+export default Skills;

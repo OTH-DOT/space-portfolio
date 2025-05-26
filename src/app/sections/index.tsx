@@ -17,6 +17,7 @@ const Sections = () => {
   const [aboutRef, aboutInView] = useInView({ threshold: 0.5 });
   const [skillsRef, skillsInView] = useInView({ threshold: 0.5 });
   const [projectsRef, projectsInView] = useInView({ threshold: 0.5 });
+  const [worksRef, worksInView] = useInView({ threshold: 0.5 }); // Add separate ref for Works
   const [contactRef, contactInView] = useInView({ threshold: 0.5 });
 
   useEffect(() => {
@@ -24,31 +25,34 @@ const Sections = () => {
     else if (aboutInView) setCurrentSection('about');
     else if (skillsInView) setCurrentSection('skills');
     else if (projectsInView) setCurrentSection('projects');
-    else if (projectsInView) setCurrentSection('works');
+    else if (worksInView) setCurrentSection('works'); // Fixed: use worksInView
     else if (contactInView) setCurrentSection('contact');
-  }, [heroInView, aboutInView, skillsInView, projectsInView, contactInView]);
+  }, [heroInView, aboutInView, skillsInView, projectsInView, worksInView, contactInView]);
 
   return (
     <>
-      {/* <SharedItem section={currentSection} /> */}
       <StarsCanvas />
       
-
       <section ref={heroRef}>
         <Hero />
       </section>
+      
       <section ref={aboutRef}>
         <About />
       </section>
+      
       <section ref={skillsRef}>
         <Skills />
       </section>
+      
       <section ref={projectsRef}>
         <Projects />
-      <section ref={projectsRef}>
+      </section>
+      
+      <section ref={worksRef}> {/* Fixed: separate section for Works */}
         <Works />
       </section>
-      </section>
+      
       <section ref={contactRef}>
         <Contact />
       </section>
