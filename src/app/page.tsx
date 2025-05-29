@@ -9,7 +9,7 @@ export default function Home() {
   return (
       <div className="bg-black text-white scroll-smooth">
       <Header />
-      <main className="">
+      <main className="pt-[90px]">
         <Sections />
       </main>
       <Footer />

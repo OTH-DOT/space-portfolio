@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Rocket, Send, CheckCircle, RotateCcw } from 'lucide-react';
+import { Send, CheckCircle, RotateCcw } from 'lucide-react';
+import Rocket from './animations/Rocket';
 
 type FormStage = 'default' | 'sending' | 'success';
 
@@ -33,11 +34,13 @@ const Contact = () => {
     // Move to sending stage
     setStage('sending');
     
-    // Simulate API call or actual email sending
-    await new Promise(resolve => setTimeout(resolve, 3500));
-    
-    // Move to success stage
-    setStage('success');
+    // Wait 2 seconds before rocket flies away
+    setTimeout(() => {
+      // After another 2 seconds, show success
+      setTimeout(() => {
+        setStage('success');
+      }, 2000);
+    }, 2000);
   };
 
   const resetForm = () => {
@@ -48,7 +51,7 @@ const Contact = () => {
   const isFormValid = formData.name.trim() && formData.email.trim() && formData.message.trim();
 
   return (
-    <section id="contact" className="min-h-screen py-20 px-4 relative overflow-hidden">
+    <section id="contact" className="h-screen py-20 px-4 relative overflow-hidden">
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
@@ -81,14 +84,15 @@ const Contact = () => {
 
         {/* Main Content */}
         <div className="relative min-h-[600px] flex items-center justify-center">
-          <AnimatePresence mode="wait">
-            {/* Stage 1: Default View */}
+          <AnimatePresence mode="wait" initial={false}>
+            
+            {/* Stage 1: Form + Rocket Side by Side */}
             {stage === 'default' && (
               <motion.div
                 key="default"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                exit={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
                 className="w-full grid lg:grid-cols-2 gap-12 items-center"
               >
@@ -102,7 +106,7 @@ const Contact = () => {
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl">
                     <h3 className="text-2xl font-bold text-white mb-6">Send me a message</h3>
                     
-                    <div className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                       <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                           Your Name
@@ -152,8 +156,7 @@ const Contact = () => {
                       </div>
 
                       <motion.button
-                        type="button"
-                        onClick={handleSubmit}
+                        type="submit"
                         disabled={!isFormValid}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
@@ -162,7 +165,7 @@ const Contact = () => {
                         <Send size={20} />
                         Launch Message
                       </motion.button>
-                    </div>
+                    </form>
                   </div>
                 </motion.div>
 
@@ -185,9 +188,7 @@ const Contact = () => {
                     }}
                     className="relative"
                   >
-                    <div className="w-32 h-32 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-2xl border-4 border-white/20">
-                      <Rocket size={48} className="text-white transform rotate-45" />
-                    </div>
+                    <Rocket />
                     
                     {/* Ground effect */}
                     <motion.div
@@ -207,46 +208,87 @@ const Contact = () => {
               </motion.div>
             )}
 
-            {/* Stage 2: Sending Animation */}
+            {/* Stage 2: Rocket in Center, Then Flying Away */}
             {stage === 'sending' && (
               <motion.div
                 key="sending"
-                initial={{ opacity: 0 }}
+                initial={{ opacity: 1 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="flex flex-col items-center justify-center text-center"
               >
+                {/* Rocket Animation - moves from right to center, then flies away */}
                 <motion.div
-                  initial={{ scale: 1, y: 0 }}
+                  initial={{ x: 300, y: 0 }} // Start from right side
                   animate={{ 
-                    y: [-300, -400, -500],
-                    scale: [1, 0.8, 0.5],
-                    rotate: [45, 45, 45]
+                    // Move to center smoothly
+                    x: [300, 0, 0, 0, 0],
+                    // First 2 seconds: hover in center
+                    y: [0, 0, -10, 0, -10, 0, -300, -500],
+                    // After 2 seconds: fly up and away
+                    scale: [1, 1, 1, 1, 1, 1, 0.5, 0.1],
+                    opacity: [1, 1, 1, 1, 1, 1, 0.7, 0]
                   }}
                   transition={{ 
-                    duration: 3,
+                    duration: 4.5,
                     ease: "easeOut",
-                    times: [0, 0.6, 1]
+                    times: [0, 0.1, 0.2, 0.35, 0.45, 0.55, 0.8, 1]
                   }}
                   className="relative mb-8"
                 >
-                  <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-2xl">
-                    <Rocket size={32} className="text-white" />
-                  </div>
+                  <motion.div
+                    animate={{
+                      y: [0, -10, 0],
+                      rotate: [0, 2, -2, 0],
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    className="relative"
+                  >
+                    <Rocket />
+                    
+                    {/* Ground effect */}
+                    <motion.div
+                      animate={{
+                        scaleX: [1, 1.1, 1],
+                        opacity: [0.3, 0.6, 0.3],
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                      className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-3 bg-white/20 rounded-full blur-sm"
+                    />
+                  </motion.div>
                   
-                  {/* Rocket trail */}
+                  {/* Rocket trail that appears when flying */}
                   <motion.div
                     initial={{ opacity: 0, scaleY: 0 }}
-                    animate={{ opacity: [0, 1, 0.8], scaleY: [0, 1, 2] }}
-                    transition={{ duration: 3, ease: "easeOut" }}
-                    className="absolute top-full left-1/2 transform -translate-x-1/2 w-4 h-20 bg-gradient-to-b from-orange-400 via-red-500 to-transparent rounded-full origin-top"
+                    animate={{ 
+                      opacity: [0, 0, 0, 0, 0, 0, 1, 0.8], 
+                      scaleY: [0, 0, 0, 0, 0, 0, 1, 2] 
+                    }}
+                    transition={{ 
+                      duration: 4.5, 
+                      ease: "easeOut",
+                      times: [0, 0.1, 0.2, 0.35, 0.45, 0.55, 0.8, 1]
+                    }}
+                    className="absolute top-full left-1/2 transform -translate-x-1/2 w-6 h-32 bg-gradient-to-b from-orange-400 via-red-500 to-transparent rounded-full origin-top"
                   />
                 </motion.div>
 
+                {/* Loading message (only for first 2 seconds) */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.6 }}
+                  animate={{ opacity: [0, 1, 1, 1, 0] }}
+                  transition={{ 
+                    duration: 4.5,
+                    times: [0, 0.15, 0.4, 0.5, 0.65]
+                  }}
                   className="text-center"
                 >
                   <div className="flex items-center justify-center gap-3 mb-4">
@@ -255,9 +297,9 @@ const Contact = () => {
                       transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                       className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full"
                     />
-                    <span className="text-xl text-white font-semibold">Launching your message...</span>
+                    <span className="text-xl text-white font-semibold">Preparing launch...</span>
                   </div>
-                  <p className="text-gray-400">Please wait while we send your message to space</p>
+                  <p className="text-gray-400">Getting your message ready for takeoff</p>
                 </motion.div>
               </motion.div>
             )}
@@ -312,36 +354,6 @@ const Contact = () => {
           </AnimatePresence>
         </div>
       </div>
-
-      {/* Floating particles during sending */}
-      {/* <AnimatePresence>
-        {stage === 'sending' && (
-          <div className="absolute inset-0 pointer-events-none">
-            {[...Array(20)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 bg-indigo-400 rounded-full"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ 
-                  opacity: [0, 1, 0],
-                  scale: [0, 1, 0],
-                  y: [0, -100],
-                }}
-                exit={{ opacity: 0 }}
-                transition={{
-                  duration: 2,
-                  delay: Math.random() * 1.5,
-                  repeat: Infinity,
-                }}
-              />
-            ))}
-          </div>
-        )}
-      </AnimatePresence> */}
     </section>
   );
 };
