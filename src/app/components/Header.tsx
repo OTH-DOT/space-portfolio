@@ -74,16 +74,16 @@ const Header = () => {
           ? 'bg-black/90 backdrop-blur-md' 
           : 'bg-black/20 backdrop-blur-sm'
       }`}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="container mx-auto sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             {/* Logo */}
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center animate-pulse">
-                <Zap className="w-5 h-5 text-white" />
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center animate-pulse">
+                <img src="./OTH_LOGO.svg" alt="logo" className="w-28 h-28" />
               </div>
               <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                <span className="bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
-                  DevPortfolio
+                <span className="bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+                  Othamne Makkour
                 </span>
               </h1>
             </div>
