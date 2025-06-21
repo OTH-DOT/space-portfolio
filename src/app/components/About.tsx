@@ -41,7 +41,7 @@ const About = ({ innerRef }) => {
     "games"
   ];
 
-  // Simplified draggable for desktop, static for mobile
+  // Enhanced draggable component
   const EnhancedDraggableHabit = ({ habit, index }) => {
     const [position, setPosition] = useState({
       x: (Math.random() - 0.5) * 120,
@@ -52,7 +52,7 @@ const About = ({ innerRef }) => {
     const habitRef = useRef(null);
 
     useEffect(() => {
-      if (isMobile) return; // Disable dragging on mobile
+      if (isMobile || window.innerWidth < 768) return; // Disable dragging on mobile and tablet
       
       const element = habitRef.current;
       if (!element) return;
@@ -108,7 +108,7 @@ const About = ({ innerRef }) => {
     }, [isDragging, dragOffset, isMobile]);
 
     const handleMouseDown = (e) => {
-      if (isMobile) return; // Disable dragging on mobile
+      if (isMobile || window.innerWidth < 768) return; // Disable dragging on mobile and tablet
       
       const rect = habitRef.current.getBoundingClientRect();
       setDragOffset({
@@ -118,8 +118,8 @@ const About = ({ innerRef }) => {
       setIsDragging(true);
     };
 
-    // Mobile: render as static flex items
-    if (isMobile) {
+    // Mobile/Tablet: render as static flex items
+    if (isMobile || window.innerWidth < 768) {
       return (
         <div className="bg-gradient-to-r from-black/80 to-gray-900/80 text-white px-3 py-2 rounded-full backdrop-blur-md border border-purple-500/20 shadow-lg">
           <span className="text-sm font-medium">{habit}</span>
@@ -158,117 +158,28 @@ const About = ({ innerRef }) => {
       className="min-h-screen flex items-center justify-center p-4 relative z-10"
     >
       <div className="w-full container mx-auto">
-        {/* Mobile Layout */}
-        <div className="block md:hidden space-y-6">
-          {/* About Text */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-xl p-6 border border-gray-800 shadow-lg"
-          >
-            <div className="mb-4 flex items-center gap-2">
-              <div className="h-1 w-8 bg-blue-600 rounded-full"></div>
-              <h2 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-                ABOUT ME
-              </h2>
-            </div>
+        {/* Responsive Grid Layout */}
+        <div className="flex flex-col md:flex-row gap-6 min-h-[80vh]">
+          
+          {/* Left Column - Astronaut & Contact */}
+          <div className="flex flex-col w-full md:w-1/3 gap-6 order-1 md:order-1">
             
-            <p className="text-gray-300 leading-relaxed text-sm">
-              I'm a <span className="font-medium text-white">Full Stack Developer</span> specializing in modern web development. 
-              My toolkit includes <span className="text-blue-400 font-medium">React.js, Next.js, TailwindCSS</span> for crafting 
-              beautiful interfaces, and <span className="text-purple-400 font-medium">Node.js, Laravel, MySQL</span> for building 
-              robust backends.
-            </p>
-          </motion.div>
-
-          {/* Astronaut */}
-          <div className="h-64 bg-transparent rounded-lg p-6 flex items-center justify-center">
-            <Astronaut />
-          </div>
-
-          {/* Contact */}
-          <div className="bg-gradient-to-br from-gray-900 to-black rounded-lg p-6">
-            <div className="space-y-4">
-              <div className="flex flex-wrap gap-3 justify-center">
-                {contacts.map((contact) => (
-                  <button
-                    key={contact.id}
-                    onClick={() => setSelectedId(contact.id)}
-                    className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-medium transition-all ${
-                      selectedId === contact.id
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                    }`}
-                  >
-                    {contact.id}
-                  </button>
-                ))}
-              </div>
-
-              <div className="text-center">
-                <p className="text-white text-lg mb-2">{selectedContact.label}</p>
-              </div>
-
-              <button
-                onClick={handleCopy}
-                className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all"
-              >
-                {copied ? (
-                  <span className="text-blue-400">Copied!</span>
-                ) : (
-                  <>
-                    <Copy size={16} />
-                    <span>Copy</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Habits - Mobile */}
-          <div className="bg-gradient-to-br from-gray-900 via-purple-900 to-black rounded-lg p-6">
-            <div className="mb-4">
-              <h3 className="text-xl font-bold text-white mb-1">My Habits</h3>
-              <p className="text-purple-300 text-sm">Things I enjoy doing</p>
-            </div>
-            
-            <div className="flex flex-wrap gap-3 justify-center">
-              {habits.map((habit, index) => (
-                <EnhancedDraggableHabit key={habit} habit={habit} index={index} />
-              ))}
-            </div>
-          </div>
-
-          {/* Time Zone */}
-          <div className="bg-gradient-to-bl from-gray-900 via-black to-gray-900 rounded-lg p-6 relative overflow-hidden">
-            <div className="mb-4">
-              <h3 className="text-xl font-bold text-white mb-1">Time Zone</h3>
-              <p className="text-purple-300 text-sm">Available across all timezones</p>
-            </div>
-            <div className="h-40 relative">
-              <EarthCanvas />
-            </div>
-          </div>
-        </div>
-
-        {/* Desktop Layout */}
-        <div className="hidden md:flex flex-col lg:flex-row gap-6 min-h-[80vh]">
-          {/* Left side */}
-          <div className="flex flex-col w-full lg:w-1/3 gap-6">
-            <div className="flex-1 bg-transparent rounded-lg p-6 flex items-center justify-center min-h-[300px]">
+            {/* Astronaut */}
+            <div className="flex-1 bg-transparent rounded-lg p-6 flex items-center justify-center min-h-[250px] md:min-h-[300px]">
               <Astronaut />
             </div>
-            <div className="h-48 bg-gradient-to-br from-gray-900 to-black rounded-lg p-6">
+            
+            {/* Contact */}
+            <div className="h-auto md:h-48 bg-gradient-to-br from-gray-900 to-black rounded-lg p-6">
               <div className="h-full flex flex-col items-center justify-center gap-4">
-                <div className="flex gap-4">
+                <div className="flex flex-wrap gap-3 md:gap-4 justify-center">
                   {contacts.map((contact) => (
                     <button
                       key={contact.id}
                       onClick={() => setSelectedId(contact.id)}
-                      className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-medium transition-all ${
+                      className={`w-12 h-12 rounded-full cursor-pointer flex items-center justify-center text-lg font-medium transition-all ${
                         selectedId === contact.id
-                          ? 'bg-blue-600 text-white'
+                          ? 'bg-gradient-to-r from-blue-400 to-cyan-300 text-white'
                           : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                       }`}
                     >
@@ -278,15 +189,15 @@ const About = ({ innerRef }) => {
                 </div>
 
                 <div className="text-center">
-                  <p className="text-white font-medium">{selectedContact.label}</p>
+                  <p className="text-white text-lg md:font-medium">{selectedContact.label}</p>
                 </div>
 
                 <button
                   onClick={handleCopy}
-                  className="flex items-center gap-2 py-2 px-4 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all"
+                  className="w-full md:w-auto flex items-center cursor-pointer justify-center gap-2 py-2 md:py-2 px-4 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all"
                 >
                   {copied ? (
-                    <span className="text-blue-400 text-sm">Copied!</span>
+                    <span className="text-sky-500 text-sm">Copied!</span>
                   ) : (
                     <>
                       <Copy size={16} />
@@ -298,33 +209,39 @@ const About = ({ innerRef }) => {
             </div>
           </div>
           
-          {/* Right side */}
-          <div className="flex flex-col w-full lg:w-2/3 gap-6">
+          {/* Right Column - About, Habits & Timezone */}
+          <div className="flex flex-col w-full md:w-2/3 gap-6 order-2 md:order-2">
+            
+            {/* About Me */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="flex-1 bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-xl p-8 border border-gray-800 shadow-lg min-h-[250px] flex flex-col justify-center"
+              className="flex-1 bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-xl p-6 md:p-8 border border-gray-800 shadow-lg min-h-[200px] md:min-h-[250px] flex flex-col justify-center"
             >
               <div className="mb-4 flex items-center gap-2">
                 <div className="h-1 w-8 bg-blue-600 rounded-full"></div>
-                <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+                <h2 className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
                   ABOUT ME
                 </h2>
               </div>
               
-              <p className="text-gray-300 leading-relaxed text-base">
+              <p className="text-gray-300 leading-relaxed text-sm md:text-base">
                 I'm a <span className="font-medium text-white">Full Stack Developer</span> specializing in modern web development. 
                 My toolkit includes <span className="text-blue-400 font-medium">React.js, Next.js, TailwindCSS</span> for crafting 
-                beautiful interfaces, and <span className="text-purple-400 font-medium">Node.js, Laravel, MySQL</span> for building 
-                robust backends. I create <span className="italic text-gray-200">high-performance applications</span> with focus on user experience.
+                beautiful interfaces, and <span className="text-purple-400 font-medium">Node.js, Laravel, MySQL, MongoDB</span> for building 
+                robust and scalable backends{isMobile ? '.' : '. I create'} {!isMobile && <span className="italic text-gray-200">high-performance applications</span>} {!isMobile && ' with a strong focus on user experience.'}
               </p>
+
             </motion.div>
 
+            {/* Bottom Row - Habits & Timezone */}
             <div className="flex flex-col sm:flex-row gap-6 flex-1">
+              
+              {/* Habits */}
               <div className="flex-1 bg-gradient-to-br from-gray-900 via-purple-900 to-black rounded-lg p-6 relative overflow-hidden min-h-[200px]">
-                {/* Background stars */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {/* Background stars - Only show on desktop */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block">
                   {[...Array(15)].map((_, i) => (
                     <motion.div
                       key={`star-${i}`}
@@ -352,10 +269,13 @@ const About = ({ innerRef }) => {
                 <div className="relative z-10 h-full flex flex-col">
                   <div className="mb-4">
                     <h3 className="text-xl font-bold text-white mb-1">My Habits</h3>
-                    <p className="text-purple-300 text-sm">Drag them around!</p>
+                    <p className="text-purple-300 text-sm">
+                      {isMobile ? 'Things I enjoy doing' : 'Drag them around!'}
+                    </p>
                   </div>
                   
-                  <div className="flex-1 relative drop-zone">
+                  {/* Mobile/Tablet: Flex layout, Desktop: Absolute positioned */}
+                  <div className={`flex-1 ${(isMobile || window.innerWidth < 768) ? 'flex flex-wrap gap-3 justify-center' : 'relative drop-zone'}`}>
                     {habits.map((habit, index) => (
                       <EnhancedDraggableHabit key={habit} habit={habit} index={index} />
                     ))}
@@ -363,15 +283,16 @@ const About = ({ innerRef }) => {
                 </div>
               </div>
               
-              <div className="h-48 relative sm:h-full flex-1 bg-gradient-to-bl from-gray-900 via-black to-gray-900 rounded-lg p-6">
-              <div className="z-10 relavite">
-                <h3 className="text-2xl font-bold text-white mb-1">Time Zone</h3>
-                <p className="text-purple-300 text-sm">Available across all timezones</p>
+              {/* Time Zone */}
+              <div className="min-h-[200px] sm:h-full flex-1 bg-gradient-to-bl from-gray-900 via-black to-gray-900 rounded-lg p-6 relative overflow-hidden">
+                <div className="z-10 relative">
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-1">Time Zone</h3>
+                  <p className="text-purple-300 text-sm">Available across all timezones</p>
+                </div>
+                <div className={`${isMobile ? '' : 'absolute -right-15 -bottom-15'} w-full h-full`}>
+                  <EarthCanvas />
+                </div>
               </div>
-              <div className='absolute right-0 bottom-0'>
-                <EarthCanvas />
-              </div>
-            </div>
             </div>
           </div>
         </div>
