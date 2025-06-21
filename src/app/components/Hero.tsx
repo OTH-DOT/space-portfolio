@@ -10,17 +10,15 @@ const Hero = () => {
   };
 
   const downloadCV = () => {
-    // Add your CV download logic here
-    console.log('Downloading CV...');
+    const link = document.createElement('a');
+    link.href = '/OTHMANE_MAKKOUR_CV.pdf';
+    link.download = 'OTHMANE_MAKKOUR_CV.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
-  const floatingIcons = [
-    { Icon: Code, delay: 0, x: 20, y: 30 },
-    { Icon: Palette, delay: 0.5, x: 80, y: 10 },
-    { Icon: Zap, delay: 1, x: 60, y: 70 },
-    { Icon: Globe, delay: 1.5, x: 10, y: 60 },
-    { Icon: Sparkles, delay: 2, x: 90, y: 50 }
-  ];
+
 
   return (
     <section id="home" 
@@ -28,7 +26,7 @@ const Hero = () => {
     >
       
       {/* Main Content Container */}
-<div className="relative z-20 px-4 container w-full  mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-between">
+<div className="relative z-20 px-4 container w-full  mx-auto grid grid-cols-1 lg:grid-cols-2  items-between">
         
         {/* Left Side - Content */}
         <motion.div
@@ -129,10 +127,10 @@ const Hero = () => {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative flex items-center justify-center"
+          className="relative max-lg:hidden flex items-center justify-center"
         >
           {/* Cosmic Energy Field */}
-          <div className="relative w-96 h-96 lg:w-[300px] lg:h-[300px] xl:w-[450px] xl:h-[450px]">
+          <div className="relative lg:w-[400px] lg:h-[400px] xl:w-[450px] xl:h-[450px]">
             {/* Outer Glow Ring */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}

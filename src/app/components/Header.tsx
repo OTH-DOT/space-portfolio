@@ -75,10 +75,10 @@ const Header = () => {
           : 'bg-black/20 backdrop-blur-sm'
       }`}>
         <div className="container mx-auto sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
+          <div className="flex max-md:px-4 justify-between items-center">
             {/* Logo */}
-            <div className="flex items-center space-x-2">
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center animate-pulse">
+            <div className="flex items-center">
+              <div className="w-14 h-14 rounded-lg flex items-center justify-center">
                 <img src="./OTH_LOGO.svg" alt="logo" className="w-28 h-28" />
               </div>
               <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
