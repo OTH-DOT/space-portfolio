@@ -146,8 +146,8 @@ const WorkExperience = () => {
           </motion.h2>
         </motion.div>
 
-        {/* Timeline Container */}
-        <div className="relative max-w-6xl mx-auto">
+        {/* Desktop Timeline Container - Hidden on mobile, visible on md and up */}
+        <div className="hidden md:block relative max-w-6xl mx-auto">
           {/* Central vertical line */}
           <div className="absolute left-1/2 transform -translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 via-blue-500 to-purple-500 rounded-full"></div>
           
@@ -279,8 +279,8 @@ const WorkExperience = () => {
           </motion.div>
         </div>
 
-        {/* Mobile version - show below md breakpoint */}
-        <div className="md:hidden relative max-w-lg mx-auto">
+        {/* Mobile version - show only on mobile, hidden on md and up */}
+        <div className="block md:hidden relative max-w-lg mx-auto">
           {/* Left line for mobile */}
           <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-500 via-blue-500 to-purple-500"></div>
           

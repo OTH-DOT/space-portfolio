@@ -22,7 +22,7 @@ const StarsCanvas = () => {
 
     // Create star geometry with varying brightness
     const starGeometry = new THREE.BufferGeometry()
-    const starCount = 10000
+    const starCount = 8000
     const positions = new Float32Array(starCount * 3)
     const colors = new Float32Array(starCount * 3)
     const sizes = new Float32Array(starCount)

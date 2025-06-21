@@ -403,7 +403,7 @@ const About = ({ innerRef }) => {
                 <p className="text-purple-300 text-sm">Available across all timezones</p>
               </div>
               <div className='absolute right-0 bottom-0'>
-                {/* <EarthCanvas /> */}
+                <EarthCanvas />
               </div>
             </div>
           </div>
