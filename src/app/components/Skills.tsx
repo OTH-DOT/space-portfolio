@@ -100,7 +100,7 @@ const Skills = ({ innerRef }) => {
     const interval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * skillItem.length);
       setActiveIndex(randomIndex);
-    }, 1000); // Change every 1.5 seconds
+    }, 1000); // Change every 1 second
 
     return () => clearInterval(interval);
   }, [isAutoRunning]);
@@ -125,8 +125,12 @@ const Skills = ({ innerRef }) => {
   };
 
   return (
-    <section id="skills" ref={innerRef} className="min-h-screen flex items-center justify-center p-4 md:p-8 bg-zinc-950">
-      <div className="container absolute z-20">
+    <section 
+      id="skills" 
+      ref={innerRef} 
+      className="min-h-screen flex items-center justify-center p-4 md:p-8 relative z-10"
+    >
+      <div className="container">
         <h2 className='text-3xl font-bold text-white mb-4 reveal-up'>
           Essential Tools I use
         </h2>
