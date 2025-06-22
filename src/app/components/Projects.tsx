@@ -1,17 +1,19 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
 const Projects = () => {
   const containerRef = useRef(null)
   const [currentProject, setCurrentProject] = useState(0)
   const [selectedProject, setSelectedProject] = useState(null)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   })
 
-  // Sample projects data with more details
+  // Sample projects data with multiple images
   const projects = [
     {
       title: "AI Chat Platform",
@@ -19,7 +21,13 @@ const Projects = () => {
       longDescription: "This comprehensive AI chat platform revolutionizes communication by integrating advanced natural language processing with real-time messaging. Built with modern React architecture and powered by OpenAI's GPT models, it provides intelligent conversation assistance, automated responses, and contextual understanding. The platform features multi-user support, conversation history, file sharing, and advanced AI analytics.",
       technologies: ["React", "Node.js", "OpenAI", "Socket.io", "MongoDB", "Redis"],
       icon: "🤖",
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop",
+      images: [
+        "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
+        "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&h=600&fit=crop",
+        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=600&fit=crop",
+        "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&h=600&fit=crop",
+        "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=600&fit=crop"
+      ],
       features: ["Real-time messaging", "AI-powered responses", "Multi-user support", "File sharing", "Conversation history"],
       github: "https://github.com/example/ai-chat",
       demo: "https://ai-chat-demo.com"
@@ -30,45 +38,58 @@ const Projects = () => {
       longDescription: "A powerful business intelligence dashboard designed specifically for e-commerce operations. Features include real-time sales tracking, inventory management, customer analytics, and predictive forecasting. Built with Next.js for optimal performance and TypeScript for reliability, it integrates with multiple payment processors and provides actionable insights through interactive charts and reports.",
       technologies: ["Next.js", "TypeScript", "Chart.js", "PostgreSQL", "Stripe", "AWS"],
       icon: "📊",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
+      images: [
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+        "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=600&fit=crop",
+        "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=800&h=600&fit=crop",
+        "https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?w=800&h=600&fit=crop",
+        "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&h=600&fit=crop"
+      ],
       features: ["Real-time analytics", "Inventory tracking", "Sales forecasting", "Customer insights", "Payment integration"],
       github: "https://github.com/example/ecommerce-dashboard",
       demo: "https://dashboard-demo.com"
     },
-    {
-      title: "3D Portfolio Site",
-      description: "Interactive 3D portfolio website showcasing creative projects with immersive user experience.",
-      longDescription: "An innovative 3D portfolio website that pushes the boundaries of web design. Using Three.js and WebGL, it creates an immersive experience with interactive 3D models, particle systems, and smooth animations. The site features dynamic lighting, responsive 3D layouts, and optimized performance across devices. Custom shaders and post-processing effects create a unique visual experience.",
-      technologies: ["Three.js", "WebGL", "GSAP", "Blender", "React", "Webpack"],
-      icon: "🎨",
-      image: "https://images.unsplash.com/photo-1618477388954-7852f32655ec?w=400&h=300&fit=crop",
-      features: ["Interactive 3D models", "Custom shaders", "Particle systems", "Responsive design", "Performance optimized"],
-      github: "https://github.com/example/3d-portfolio",
-      demo: "https://3d-portfolio-demo.com"
-    },
-    {
-      title: "Mobile Fitness App",
-      description: "Cross-platform fitness tracking application with workout plans and progress monitoring.",
-      longDescription: "A comprehensive fitness application built with React Native that helps users achieve their health goals. Features include personalized workout plans, nutrition tracking, progress analytics, and social sharing. Integrates with health APIs and wearable devices for accurate data collection. The app includes offline support, push notifications, and gamification elements to keep users motivated.",
-      technologies: ["React Native", "Firebase", "Redux", "Health Kit", "Expo", "AsyncStorage"],
-      icon: "💪",
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop",
-      features: ["Workout tracking", "Nutrition monitoring", "Progress analytics", "Social features", "Offline support"],
-      github: "https://github.com/example/fitness-app",
-      demo: "https://fitness-app-demo.com"
-    },
-    {
-      title: "Blockchain Wallet",
-      description: "Secure cryptocurrency wallet with multi-chain support and DeFi integration capabilities.",
-      longDescription: "A next-generation cryptocurrency wallet that supports multiple blockchain networks including Ethereum, Bitcoin, and Polygon. Features advanced security measures, DeFi protocol integration, NFT management, and portfolio tracking. Built with Web3.js and Solidity smart contracts, it provides users with full control over their digital assets while maintaining the highest security standards.",
-      technologies: ["Web3.js", "Solidity", "Ethereum", "MetaMask", "React", "Hardhat"],
-      icon: "₿",
-      image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop",
-      features: ["Multi-chain support", "DeFi integration", "NFT management", "Portfolio tracking", "Advanced security"],
-      github: "https://github.com/example/blockchain-wallet",
-      demo: "https://crypto-wallet-demo.com"
-    }
   ]
+
+  // Reset image index when project changes
+  useEffect(() => {
+    if (selectedProject) {
+      setCurrentImageIndex(0)
+    }
+  }, [selectedProject])
+
+  // Navigation functions for slideshow
+  const nextImage = () => {
+    if (selectedProject) {
+      setCurrentImageIndex((prev) => 
+        prev === selectedProject.images.length - 1 ? 0 : prev + 1
+      )
+    }
+  }
+
+  const prevImage = () => {
+    if (selectedProject) {
+      setCurrentImageIndex((prev) => 
+        prev === 0 ? selectedProject.images.length - 1 : prev - 1
+      )
+    }
+  }
+
+  const goToImage = (index) => {
+    setCurrentImageIndex(index)
+  }
+
+  // Auto-slide functionality
+  useEffect(() => {
+    if (selectedProject && selectedProject.images.length > 1) {
+      const interval = setInterval(() => {
+        nextImage()
+      }, 5000) // Change image every 5 seconds
+      
+      return () => clearInterval(interval)
+    }
+  }, [selectedProject, currentImageIndex])
 
   // Black hole movement and scale - responsive sizing
   const blackHoleY = useTransform(scrollYProgress, [0, 0.15, 1], [0, -350, -350])
@@ -137,9 +158,37 @@ const Projects = () => {
             opacity: useTransform(scrollYProgress, [0, 0.15], [1, 0])
           }}
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4">Projects</h2>
+          {/* Header */}
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                  className="text-center mb-4"
+                >
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.3, duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="text-purple-400 text-sm uppercase mb-4 tracking-[0.3em] font-medium"
+                  >
+                    What I’ve Built
+                  </motion.p>
+                  <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.8 }}
+                    viewport={{ once: true }}
+                    className="text-5xl md:text-6xl leading-tight font-bold bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent"
+                  >
+                    Projects
+                  </motion.h2>
+                </motion.div>
+          {/* <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4">Projects</h2> */}
           <p className="text-gray-400 text-sm sm:text-base lg:text-lg">Scroll to explore my work</p>
         </motion.div>
+        
 
         {/* Sticky container - handles all internal animations */}
         <div className="sticky top-6 sm:top-12 h-screen flex items-center justify-center overflow-hidden px-2 sm:px-4">
@@ -190,31 +239,35 @@ const Projects = () => {
                         </div>
                         <p className="text-gray-300 text-xs sm:text-sm lg:text-base mb-3 sm:mb-4 leading-relaxed line-clamp-2 sm:line-clamp-3 lg:line-clamp-4">{project.description}</p>
                         <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4">
-                          {project.technologies.slice(0, window.innerWidth < 640 ? 3 : 4).map((tech, i) => (
+                          {project.technologies.slice(0, typeof window !== 'undefined' && window.innerWidth < 640 ? 3 : 4).map((tech, i) => (
                             <span key={i} className="px-2 sm:px-3 py-1 bg-orange-600/40 text-orange-200 text-xs sm:text-sm rounded-full border border-orange-500/30">
                               {tech}
                             </span>
                           ))}
-                          {project.technologies.length > (window.innerWidth < 640 ? 3 : 4) && (
+                          {project.technologies.length > (typeof window !== 'undefined' && window.innerWidth < 640 ? 3 : 4) && (
                             <span className="px-2 sm:px-3 py-1 bg-gray-600/40 text-gray-300 text-xs sm:text-sm rounded-full border border-gray-500/30">
-                              +{project.technologies.length - (window.innerWidth < 640 ? 3 : 4)} more
+                              +{project.technologies.length - (typeof window !== 'undefined' && window.innerWidth < 640 ? 3 : 4)} more
                             </span>
                           )}
                         </div>
                       </div>
-                      <div className="text-orange-400 text-xs sm:text-sm lg:text-base font-medium hover:text-orange-300 transition-colors">
-                        Click to view details →
+                      <div className="text-orange-400 flex items-center gap-2 text-xs sm:text-sm lg:text-base font-medium hover:text-orange-300 transition-colors">
+                        <span>Click to view details</span> <ArrowRightIcon />
                       </div>
                     </div>
                     
-                    {/* Image Section - Responsive */}
+                    {/* Image Section - Show first image */}
                     <div className="w-full flex-1 md:w-80 lg:w-96 h-48 md:h-full flex-shrink-0 relative overflow-hidden">
                       <img 
-                        src={project.image} 
+                        src={project.images[0]} 
                         alt={project.title}
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-l from-transparent to-gray-900/20"></div>
+                      {/* Image count indicator */}
+                      <div className="absolute top-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded-full">
+                        {project.images.length} photos
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -223,7 +276,7 @@ const Projects = () => {
           })}
 
           {/* Enhanced floating particles - responsive */}
-          {[...Array(window.innerWidth < 640 ? 8 : 12)].map((_, i) => (
+          {[...Array(typeof window !== 'undefined' && window.innerWidth < 640 ? 8 : 12)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 bg-orange-400 rounded-full pointer-events-none z-0"
@@ -288,7 +341,7 @@ const Projects = () => {
         </motion.div>
       </motion.div>
 
-      {/* Project Detail Modal - Responsive */}
+      {/* Project Detail Modal with Slideshow - Responsive */}
       <AnimatePresence>
         {selectedProject && (
           <motion.div
@@ -306,29 +359,88 @@ const Projects = () => {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl sm:rounded-2xl border border-orange-500/40 shadow-2xl max-w-full sm:max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto"
+              className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl sm:rounded-2xl border border-orange-500/40 shadow-2xl max-w-full sm:max-w-5xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
               <button
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-2 right-2 sm:top-4 sm:right-4 w-8 h-8 bg-red-600/20 hover:bg-red-600/40 text-red-400 rounded-full flex items-center justify-center transition-colors z-10 text-sm sm:text-base"
+                className="absolute top-2 right-2 sm:top-4 sm:right-4 w-8 h-8 bg-red-600/20 hover:bg-red-600/40 text-red-400 rounded-full flex items-center justify-center transition-colors z-20 text-sm sm:text-base"
               >
                 ✕
               </button>
 
-              {/* Header Image - Responsive */}
-              <div className="h-48 sm:h-64 lg:h-80 relative overflow-hidden rounded-t-xl sm:rounded-t-2xl">
-                <img 
-                  src={selectedProject.image} 
-                  alt={selectedProject.title}
+              {/* Image Slideshow Section - Responsive */}
+              <div className="h-64 sm:h-80 lg:h-96 relative overflow-hidden rounded-t-xl sm:rounded-t-2xl">
+                {/* Current Image */}
+                <motion.img 
+                  key={currentImageIndex}
+                  src={selectedProject.images[currentImageIndex]} 
+                  alt={`${selectedProject.title} - Image ${currentImageIndex + 1}`}
                   className="w-full h-full object-cover"
+                  initial={{ opacity: 0, x: 100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -100 }}
+                  transition={{ duration: 0.3 }}
                 />
+                
+                {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
+                
+                {/* Project Title on Image */}
                 <div className="absolute bottom-3 sm:bottom-6 left-3 sm:left-6 flex items-center">
                   <span className="text-2xl sm:text-3xl lg:text-4xl mr-2 sm:mr-4">{selectedProject.icon}</span>
                   <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{selectedProject.title}</h2>
                 </div>
+
+                {/* Navigation Arrows */}
+                {selectedProject.images.length > 1 && (
+                  <>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        prevImage()
+                      }}
+                      className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-colors"
+                    >
+                      <ChevronLeftIcon />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        nextImage()
+                      }}
+                      className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-colors"
+                    >
+                      <ChevronRightIcon />
+                    </button>
+                  </>
+                )}
+
+                {/* Image Counter */}
+                <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-black/60 text-white text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full">
+                  {currentImageIndex + 1} / {selectedProject.images.length}
+                </div>
+
+                {/* Thumbnail Navigation */}
+                {selectedProject.images.length > 1 && (
+                  <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-1 sm:space-x-2">
+                    {selectedProject.images.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          goToImage(index)
+                        }}
+                        className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+                          index === currentImageIndex
+                            ? 'bg-orange-500 scale-125'
+                            : 'bg-white/50 hover:bg-white/80'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Content - Responsive */}
@@ -356,6 +468,33 @@ const Projects = () => {
                       <span key={i} className="px-2 sm:px-3 lg:px-4 py-1 sm:py-2 bg-orange-600/40 text-orange-200 text-xs sm:text-sm rounded-full border border-orange-500/30">
                         {tech}
                       </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Image Gallery Thumbnails */}
+                <div className="mb-4 sm:mb-6">
+                  <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 sm:mb-3">Project Gallery</h3>
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+                    {selectedProject.images.map((image, index) => (
+                      <button
+                        key={index}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          goToImage(index)
+                        }}
+                        className={`aspect-square rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                          index === currentImageIndex
+                            ? 'border-orange-500 scale-105'
+                            : 'border-gray-600 hover:border-gray-400'
+                        }`}
+                      >
+                        <img
+                          src={image}
+                          alt={`Thumbnail ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
                     ))}
                   </div>
                 </div>
