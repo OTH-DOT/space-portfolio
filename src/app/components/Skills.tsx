@@ -2,17 +2,12 @@ import React, { useEffect, useState } from 'react'
 import SkillCard from './SkillCard';
 
 const skillItem = [
+  // Frontend
   {
-    imgSrc: '/figma.svg',
-    label: 'Figma',
-    desc: 'Design tool',
-    color:'white'
-  },
-  {
-    imgSrc: '/html.svg',
-    label: 'Html',
-    desc: 'html',
-    color: 'rgb(228, 77, 38)',
+    imgSrc: '/bootstrap.svg',
+    label: 'Bootstrap',
+    desc: 'CSS Framework',
+    color: 'rgb(134, 18, 251)',
   },
   {
     imgSrc: '/css3.svg',
@@ -21,72 +16,235 @@ const skillItem = [
     color: 'rgb(21, 143, 231)',
   },
   {
+    imgSrc: '/html.svg',
+    label: 'Html',
+    desc: 'Markup Language',
+    color: 'rgb(228, 77, 38)',
+  },
+  {
     imgSrc: '/javascript.svg',
     label: 'JavaScript',
     desc: 'Interaction',
-    color: 'rgb(247, 223, 30)'
+    color: 'rgb(247, 223, 30)',
   },
   {
-    imgSrc: '/php.svg',
-    label: 'Php',
-    desc: 'Hypertext Preprocessor',
-    color: 'rgb(104, 132, 186)'
+    imgSrc: '/nextjs-icon.svg',
+    label: 'Next.js',
+    desc: 'React Framework',
+    color: 'white',
   },
   {
-    imgSrc: '/mysql.svg',
-    label: 'Mysql',
-    desc: 'DB management system',
-    color: 'rgb(242, 145, 17)'
+    imgSrc: '/react.svg',
+    label: 'React',
+    desc: 'Frontend Library',
+    color: 'rgb(123, 215, 226)',
+  },
+  {
+    imgSrc: '/redux.svg',
+    label: 'Redux',
+    desc: 'State Management',
+    color: 'rgb(118, 74, 188)',
+  },
+  {
+    imgSrc: '/shadcnui.svg',
+    label: 'ShadCN UI',
+    desc: 'UI Components',
+    color: 'white',
+  },
+  {
+    imgSrc: '/tailwindcss.svg',
+    label: 'TailwindCSS',
+    desc: 'Utility-first CSS',
+    color: 'rgb(0, 155, 184)',
+  },
+  {
+    imgSrc: '/typescript-icon.svg',
+    label: 'TypeScript',
+    desc: 'Typed JavaScript',
+    color: 'rgb(0, 122, 204)',
+  },
+
+  // Backend
+  {
+    imgSrc: '/expressjs.svg',
+    label: 'ExpressJS',
+    desc: 'Node Framework',
+    color: 'white',
+  },
+  {
+    imgSrc: '/laravel.svg',
+    label: 'Laravel',
+    desc: 'PHP Framework',
+    color: 'rgb(251, 80, 59)',
   },
   {
     imgSrc: '/nodejs.svg',
     label: 'NodeJS',
     desc: 'Web Server',
-    color:'rgb(32, 144, 92)'
+    color: 'rgb(32, 144, 92)',
   },
   {
-    imgSrc: '/expressjs.svg',
-    label: 'ExpressJS',
-    desc: 'Node Framework',
-    color: 'white'
+    imgSrc: '/php.svg',
+    label: 'Php',
+    desc: 'Hypertext Preprocessor',
+    color: 'rgb(104, 132, 186)',
   },
+  // {
+  //   imgSrc: '/trpc.svg',
+  //   label: 'tRPC',
+  //   desc: 'End-to-End API',
+  //   color: 'rgb(60, 74, 191)',
+  // },
+
+  // Database
   {
     imgSrc: '/mongodb.svg',
     label: 'MongoDB',
-    desc: 'Database',
-    color: "rgb(84, 178, 110)"
+    desc: 'NoSQL Database',
+    color: 'rgb(84, 178, 110)',
   },
   {
-    imgSrc: '/react.svg',
-    label: 'React',
-    desc: 'Framework',
-    color: 'rgb(123, 215, 226)'
+    imgSrc: '/mysql.svg',
+    label: 'Mysql',
+    desc: 'Relational Database',
+    color: 'rgb(242, 145, 17)',
+  },
+  // {
+  //   imgSrc: '/supabase-icon.svg',
+  //   label: 'Supabase',
+  //   desc: 'BaaS with PostgreSQL',
+  //   color: 'rgb(18, 190, 125)',
+  // },
+
+  // Dev Tools
+  {
+    imgSrc: '/axios.svg',
+    label: 'Axios',
+    desc: 'HTTP Client',
+    color: 'rgb(52, 116, 255)',
   },
   {
-    imgSrc: '/laravel.svg',
-    label: 'Laravel',
-    desc: 'Framework',
-    color: 'rgb(251, 80, 59)'
+    imgSrc: '/cloudinary-icon.svg',
+    label: 'Cloudinary',
+    desc: 'Media Management',
+    color: 'rgb(44, 144, 203)',
+  },
+  // {
+  //   imgSrc: '/docker-icon.svg',
+  //   label: 'Docker',
+  //   desc: 'Containerization',
+  //   color: 'rgb(0, 123, 196)',
+  // },
+  {
+    imgSrc: '/git-icon.svg',
+    label: 'Git',
+    desc: 'Version Control',
+    color: 'rgb(240, 80, 51)',
   },
   {
-    imgSrc: '/bootstrap.svg',
-    label: 'Bootstrap',
-    desc: 'User Interface',
-    color: 'rgb(134, 18, 251)'
+    imgSrc: '/github-icon.svg',
+    label: 'GitHub',
+    desc: 'Code Hosting',
+    color: 'white',
   },
   {
-    imgSrc: '/tailwindcss.svg',
-    label: 'TailwindCSS',
-    desc: 'User Interface',
-    color: 'rgb(0, 155, 184)'
+    imgSrc: '/notion-icon.svg',
+    label: 'Notion',
+    desc: 'Note & Doc Tool',
+    color: 'white',
   },
   {
-    imgSrc: '/redux.svg',
-    label: 'Redux',
-    desc: 'library',
-    color: 'rgb(118, 74, 188)'
+    imgSrc: '/postman-icon.svg',
+    label: 'Postman',
+    desc: 'API Client',
+    color: 'rgb(255, 109, 63)',
+  },
+  {
+    imgSrc: '/vercel-icon.svg',
+    label: 'Vercel',
+    desc: 'Hosting Platform',
+    color: 'white',
+  },
+
+  // Testing
+  // {
+  //   imgSrc: '/jest.svg',
+  //   label: 'Jest',
+  //   desc: 'Testing Framework',
+  //   color: 'rgb(255, 0, 102)',
+  // },
+
+  // Authentication
+  {
+    imgSrc: '/jwt-icon.svg',
+    label: 'JWT',
+    desc: 'Authentication Token',
+    color: 'rgb(245, 129, 38)',
+  },
+  {
+    imgSrc: '/oauth.svg',
+    label: 'OAuth',
+    desc: 'Authorization Protocol',
+    color: 'rgb(37, 150, 190)',
+  },
+
+  // APIs / Libraries
+  {
+    imgSrc: '/apidog-icon.svg',
+    label: 'Apidog',
+    desc: 'API Testing',
+    color: 'rgb(47, 98, 245)',
+  },
+  {
+    imgSrc: '/chartjs.svg',
+    label: 'Chart.js',
+    desc: 'Chart Library',
+    color: 'rgb(255, 99, 132)',
+  },
+  {
+    imgSrc: '/socket.io.svg',
+    label: 'Socket.io',
+    desc: 'Realtime Communication',
+    color: 'black',
+  },
+  {
+    imgSrc: '/stripe.svg',
+    label: 'Stripe',
+    desc: 'Payment Gateway',
+    color: 'rgb(99, 91, 255)',
+  },
+  // {
+  //   imgSrc: '/websocket.svg',
+  //   label: 'WebSocket',
+  //   desc: 'Realtime Protocol',
+  //   color: 'rgb(0, 183, 255)',
+  // },
+
+  // Design
+  {
+    imgSrc: '/figma.svg',
+    label: 'Figma',
+    desc: 'Design Tool',
+    color: 'white',
+  },
+
+  // OS / Environment
+  {
+    imgSrc: '/linux-tux.svg',
+    label: 'Linux(Ubuntu)',
+    desc: 'Operating System',
+    color: 'white',
+  },
+
+  // CMS
+  {
+    imgSrc: '/wordpress-icon.svg',
+    label: 'WordPress',
+    desc: 'Content Management System',
+    color: 'rgb(33, 117, 155)',
   },
 ];
+
 
 const Skills = ({ innerRef }) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
