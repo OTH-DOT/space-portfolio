@@ -289,7 +289,9 @@ const Skills = ({ innerRef }) => {
       className="min-h-screen flex items-center justify-center p-4 md:p-8 relative z-10"
     >
       <div className="container">
-        <h2 className='text-3xl font-bold text-white mb-4 reveal-up'>
+        <h2 
+          className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-white via-indigo-300 to-purple-400 bg-clip-text text-transparent"
+        >
           Essential Tools I use
         </h2>
 

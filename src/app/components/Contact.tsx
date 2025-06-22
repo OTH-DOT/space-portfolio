@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle, RotateCcw, AlertCircle } from 'lucide-react';
 import Rocket from './animations/Rocket';
 
-type FormStage = 'default' | 'sending' | 'success' | 'error';
+type FormStage = 'default' | 'sending' | 'flying' | 'success' | 'error';
 
 interface FormData {
   name: string;
@@ -40,6 +40,7 @@ const Contact = () => {
       });
 
       if (response.ok) {
+        setStage('flying');
         setTimeout(() => {
           setStage('success');
           setFormData({ name: '', email: '', message: '' });
@@ -60,7 +61,7 @@ const Contact = () => {
   const isFormValid = formData.name.trim() && formData.email.trim() && formData.message.trim();
 
   return (
-    <section id="contact" className="min-h-screen py-20 px-4 relative overflow-hidden">
+    <section id="contact" className="min-h-screen py-20 pt-[100px] px-4 relative overflow-hidden">
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
@@ -92,7 +93,7 @@ const Contact = () => {
         </motion.div>
 
         {/* Main Content */}
-        <div className="relative min-h-fit flex items-center justify-center">
+        <div className="relative min-h-full flex items-center justify-center">
           <AnimatePresence mode="wait" initial={false}>
             
             {/* Stage 1: Form + Rocket Side by Side */}
@@ -218,7 +219,7 @@ const Contact = () => {
             )}
 
             {/* Stage 2: Rocket in Center, Then Flying Away */}
-            {stage === 'sending' && (
+            {(stage === 'sending' || stage === 'flying') && (
               <motion.div
                 key="sending"
                 initial={{ opacity: 1 }}
@@ -321,7 +322,7 @@ const Contact = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.6 }}
-                className="text-center mt-12 max-w-md mx-auto"
+                className="text-center mt-24 max-w-md mx-auto"
               >
                 <motion.div
                   initial={{ scale: 0 }}

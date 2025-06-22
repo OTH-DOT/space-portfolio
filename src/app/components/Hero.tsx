@@ -44,7 +44,7 @@ const Hero = () => {
               className="flex items-center gap-3"
             >
               <div className="w-12 h-[2px] bg-gradient-to-r from-purple-400 to-pink-300"></div>
-              <span className="text-purple-300 text-sm font-medium tracking-widest uppercase">
+              <span className="text-purple-300 text-xl font-medium tracking-widest uppercase">
                 Full-Stack Developer
               </span>
             </motion.div>

@@ -323,22 +323,6 @@ const Projects = () => {
           ))}
         </motion.div>
 
-        {/* Exit indicator - responsive */}
-        <motion.div
-          className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 text-center z-30 px-4"
-          style={{
-            opacity: useTransform(scrollYProgress, [0.85, 0.9], [0, 1])
-          }}
-        >
-          <p className="text-gray-400 text-xs sm:text-sm">Continue scrolling to next section</p>
-          <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-gray-400 rounded-full mx-auto mt-2 flex items-center justify-center">
-            <motion.div 
-              className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gray-400 rounded-full"
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            />
-          </div>
-        </motion.div>
       </motion.div>
 
       {/* Project Detail Modal with Slideshow - Responsive */}

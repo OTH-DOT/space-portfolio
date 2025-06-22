@@ -74,7 +74,7 @@ const iconVariants = {
 
 const WorkExperience = () => {
   return (
-    <section id="works" className="min-h-screen  py-20 mt-[70px] px-4 relative overflow-hidden">
+    <section id="works" className="min-h-screen py-20 pt-[100px] px-4 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent"></div>
       
