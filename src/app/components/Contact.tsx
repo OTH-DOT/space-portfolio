@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle, RotateCcw } from 'lucide-react';
+import { Send, CheckCircle, RotateCcw, AlertCircle } from 'lucide-react';
 import Rocket from './animations/Rocket';
 
-type FormStage = 'default' | 'sending' | 'success';
+type FormStage = 'default' | 'sending' | 'success' | 'error';
 
 interface FormData {
   name: string;
@@ -30,17 +30,26 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Move to sending stage
     setStage('sending');
-    
-    // Wait 2 seconds before rocket flies away
-    setTimeout(() => {
-      // After another 2 seconds, show success
-      setTimeout(() => {
-        setStage('success');
-      }, 2000);
-    }, 2000);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setTimeout(() => {
+          setStage('success');
+          setFormData({ name: '', email: '', message: '' });
+        }, 2000);
+      } else {
+        setTimeout(() => setStage('error'), 2000);
+      }
+    } catch (error) {
+      setTimeout(() => setStage('error'), 2000);
+    }
   };
 
   const resetForm = () => {
@@ -51,7 +60,7 @@ const Contact = () => {
   const isFormValid = formData.name.trim() && formData.email.trim() && formData.message.trim();
 
   return (
-    <section id="contact" className="h-screen py-20 px-4 relative overflow-hidden">
+    <section id="contact" className="min-h-screen py-20 px-4 relative overflow-hidden">
       
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
@@ -60,7 +69,7 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center max-md:mb-8"
         >
           <motion.p
             initial={{ opacity: 0 }}
@@ -83,7 +92,7 @@ const Contact = () => {
         </motion.div>
 
         {/* Main Content */}
-        <div className="relative min-h-[600px] flex items-center justify-center">
+        <div className="relative min-h-fit flex items-center justify-center">
           <AnimatePresence mode="wait" initial={false}>
             
             {/* Stage 1: Form + Rocket Side by Side */}
@@ -174,7 +183,7 @@ const Contact = () => {
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                  className="flex items-center justify-center lg:justify-end"
+                  className="flex items-center max-lg:hidden justify-center lg:justify-end"
                 >
                   <motion.div
                     animate={{
@@ -312,7 +321,7 @@ const Contact = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.6 }}
-                className="text-center max-w-md mx-auto"
+                className="text-center mt-12 max-w-md mx-auto"
               >
                 <motion.div
                   initial={{ scale: 0 }}
@@ -348,6 +357,52 @@ const Contact = () => {
                 >
                   <RotateCcw size={20} />
                   Send Another Message
+                </motion.button>
+              </motion.div>
+            )}
+
+            {/* Stage 4: Error Message */}
+            {stage === 'error' && (
+              <motion.div
+                key="error"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.6 }}
+                className="text-center mt-12 max-w-md mx-auto"
+              >
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, duration: 0.5, type: "spring", bounce: 0.5 }}
+                  className="w-24 h-24 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl"
+                >
+                  <AlertCircle size={48} className="text-white" />
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                  className="space-y-4 mb-8"
+                >
+                  <h3 className="text-3xl font-bold text-white">Oops! Something went wrong 😔</h3>
+                  <p className="text-gray-300 leading-relaxed">
+                    We couldn't send your message right now. Please try again or contact me directly.
+                  </p>
+                </motion.div>
+
+                <motion.button
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.6 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={resetForm}
+                  className="px-8 py-4 bg-gradient-to-r from-red-600 to-pink-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-red-500/25 transition-all duration-200 flex items-center gap-2 mx-auto"
+                >
+                  <RotateCcw size={20} />
+                  Try Again
                 </motion.button>
               </motion.div>
             )}
