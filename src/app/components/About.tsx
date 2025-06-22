@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Copy, Linkedin, Mail, Phone } from 'lucide-react';
+import { Copy } from 'lucide-react';
 import EarthCanvas from './canvas/Earth';
 import Astronaut from './animations/Astronaut';
-import StarsCanvas from './canvas/Stars';
+// import StarsCanvas from './canvas/Stars';
 
 const About = ({ innerRef }) => {
   const contacts = [
@@ -105,7 +105,7 @@ const About = ({ innerRef }) => {
           cancelAnimationFrame(animationFrame);
         }
       };
-    }, [isDragging, dragOffset, isMobile]);
+    }, [isDragging, dragOffset]);
 
     const handleMouseDown = (e) => {
       if (isMobile || window.innerWidth < 768) return; // Disable dragging on mobile and tablet
@@ -227,7 +227,7 @@ const About = ({ innerRef }) => {
               </div>
               
               <p className="text-gray-300 leading-relaxed text-sm md:text-base">
-                I'm a <span className="font-medium text-white">Full Stack Developer</span> specializing in modern web development. 
+                I&apos;m a <span className="font-medium text-white">Full Stack Developer</span> specializing in modern web development. 
                 My toolkit includes <span className="text-blue-400 font-medium">React.js, Next.js, TailwindCSS</span> for crafting 
                 beautiful interfaces, and <span className="text-purple-400 font-medium">Node.js, Laravel, MySQL, MongoDB</span> for building 
                 robust and scalable backends{isMobile ? '.' : '. I create'} {!isMobile && <span className="italic text-gray-200">high-performance applications</span>} {!isMobile && ' with a strong focus on user experience.'}

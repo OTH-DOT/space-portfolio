@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
+import Image from 'next/image'
 
 const Projects = () => {
   const containerRef = useRef(null)
@@ -89,7 +90,7 @@ const Projects = () => {
       
       return () => clearInterval(interval)
     }
-  }, [selectedProject, currentImageIndex])
+  }, [selectedProject, currentImageIndex, nextImage])
 
   // Black hole movement and scale - responsive sizing
   const blackHoleY = useTransform(scrollYProgress, [0, 0.15, 1], [0, -350, -350])
@@ -118,7 +119,7 @@ const Projects = () => {
   }, [scrollYProgress, projects.length])
 
   // Project card animations
-  const getCardAnimations = (index) => {
+    const createCardAnimations = (index) => {
     const totalRange = 0.7 // 15% to 85%
     const cardDuration = totalRange / projects.length
     const startProgress = 0.15 + (index * cardDuration)
@@ -142,6 +143,9 @@ const Projects = () => {
 
     return { y, opacity, scale }
   }
+
+  // Create animations for all projects at the top level
+  const projectAnimations = projects.map((_, index) => createCardAnimations(index))
 
   return (
     <>
@@ -219,7 +223,7 @@ const Projects = () => {
 
           {/* Responsive Project Cards - Much Bigger */}
           {projects.map((project, index) => {
-            const { y, opacity, scale } = getCardAnimations(index)
+            const { y, opacity, scale } = projectAnimations[index]
             
             return (
               <motion.div
@@ -258,10 +262,12 @@ const Projects = () => {
                     
                     {/* Image Section - Show first image */}
                     <div className="w-full flex-1 md:w-80 lg:w-96 h-48 md:h-full flex-shrink-0 relative overflow-hidden">
-                      <img 
+                      <Image 
                         src={project.images[0]} 
                         alt={project.title}
                         className="w-full h-full object-cover"
+                        width={800}
+                        height={600}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-l from-transparent to-gray-900/20"></div>
                       {/* Image count indicator */}
@@ -473,10 +479,11 @@ const Projects = () => {
                             : 'border-gray-600 hover:border-gray-400'
                         }`}
                       >
-                        <img
+                        <Image
                           src={image}
                           alt={`Thumbnail ${index + 1}`}
                           className="w-full h-full object-cover"
+                          width={100} height={100}
                         />
                       </button>
                     ))}

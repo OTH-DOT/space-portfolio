@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 interface SkillCardProps {
@@ -36,7 +37,7 @@ const SkillCard: React.FC<SkillCardProps> = ({
           ? 'bg-black' 
           : 'bg-zinc-700/50 group-hover:bg-zinc-900'
       }`}>
-        <img
+        <Image
           src={imgSrc}
           alt={label}
           width={32}

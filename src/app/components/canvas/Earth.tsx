@@ -2,20 +2,6 @@ import { Suspense } from "react"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei"
 
-// Simple Loader component (since you're importing from "../Loader")
-const Loader = () => (
-  <div style={{ 
-    position: 'absolute', 
-    top: '50%', 
-    left: '50%', 
-    transform: 'translate(-50%, -50%)',
-    color: 'white',
-    fontSize: '18px',
-    zIndex: 10
-  }}>
-    Loading 3D Model...
-  </div>
-)
 
 const Earth = () => {
   const earth = useGLTF("/earth/scene.gltf")

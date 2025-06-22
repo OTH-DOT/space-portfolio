@@ -11,6 +11,8 @@ const StarsCanvas = () => {
   useEffect(() => {
     if (!mountRef.current) return
 
+    const mount = mountRef.current 
+
     // Scene setup
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -19,6 +21,8 @@ const StarsCanvas = () => {
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setClearColor(0x000000, 1)
     mountRef.current.appendChild(renderer.domElement)
+
+    mount.appendChild(renderer.domElement)
 
     // Create star geometry with varying brightness
     const starGeometry = new THREE.BufferGeometry()

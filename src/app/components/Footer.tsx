@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 const sitemap = [
@@ -133,9 +134,9 @@ const Footer = () => {
             href="#home" 
             className="mb-4 sm:mb-0 hover:scale-110 w-28 h-28 transition-transform duration-300"
           >
-              <img 
+              <Image 
                 src="/OTH_LOGO.svg"
-                className="w-full h-full"
+                width={80} height={80}
                 alt="logo" 
               />
           </a>

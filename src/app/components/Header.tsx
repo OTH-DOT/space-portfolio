@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Menu, X, Home, User, Code, Briefcase, FolderOpen, Mail, Zap } from 'lucide-react';
+import { Menu, X, Home, User, Code, Briefcase, FolderOpen, Mail } from 'lucide-react';
+import Image from 'next/image';
 
 const navLinks = [
   { name: 'home', icon: Home },
@@ -79,7 +80,7 @@ const Header = () => {
             {/* Logo */}
             <div className="flex items-center">
               <div className="w-14 h-14 rounded-lg flex items-center justify-center">
-                <img src="./OTH_LOGO.svg" alt="logo" className="w-28 h-28" />
+                <Image src="./OTH_LOGO.svg" alt="logo" width={55} height={55} />
               </div>
               <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                 <span className="bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">

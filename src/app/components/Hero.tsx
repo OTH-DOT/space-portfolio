@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Download, Code, Palette, Zap, Globe, Sparkles } from 'lucide-react'
+import { Download, Zap } from 'lucide-react'
+import Image from 'next/image';
 
 const Hero = () => {
   const scrollToContact = () => {
@@ -85,7 +86,7 @@ const Hero = () => {
               onClick={scrollToContact}
               className="group px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full text-white font-medium hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
             >
-              Let's build something
+              Let&apos;s build something
               <Zap className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
             </button>
             
@@ -188,7 +189,7 @@ const Hero = () => {
                 >
                   {/* Placeholder for your SVG - add your custom SVG here */}
                   <div className="text-white/60 font-light">
-                    <img src="./OTH_LOGO.svg" alt="logo" className="w-28 h-28" />
+                    <Image src="./OTH_LOGO.svg" alt="logo" width={75} height={75} />
                   </div>
                 </motion.div>
 

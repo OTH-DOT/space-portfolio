@@ -48,7 +48,7 @@ const Contact = () => {
       } else {
         setTimeout(() => setStage('error'), 2000);
       }
-    } catch (error) {
+    } catch {
       setTimeout(() => setStage('error'), 2000);
     }
   };
@@ -342,7 +342,7 @@ const Contact = () => {
                   <h3 className="text-3xl font-bold text-white">Message Sent Successfully! 🚀</h3>
                   <p className="text-gray-300 leading-relaxed">
                     Thank you for reaching out! Your message has been delivered successfully. 
-                    I'll get back to you as soon as possible.
+                    I&apos;ll get back to you as soon as possible.
                   </p>
                   <div className="text-4xl">👋</div>
                 </motion.div>
@@ -389,7 +389,7 @@ const Contact = () => {
                 >
                   <h3 className="text-3xl font-bold text-white">Oops! Something went wrong 😔</h3>
                   <p className="text-gray-300 leading-relaxed">
-                    We couldn't send your message right now. Please try again or contact me directly.
+                    We couldn&apos;t send your message right now. Please try again or contact me directly.
                   </p>
                 </motion.div>
 
