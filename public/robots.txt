@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://othmanemakkour.vercel.app
+
+# Sitemaps
+Sitemap: https://othmanemakkour.vercel.app/sitemap.xml

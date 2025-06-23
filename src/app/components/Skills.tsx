@@ -1,5 +1,8 @@
+'use client';
+
 import React, { useEffect, useState } from 'react'
 import SkillCard from './SkillCard';
+
 
 const skillItem = [
   // Frontend
@@ -246,7 +249,7 @@ const skillItem = [
 ];
 
 
-const Skills = ({ innerRef }) => {
+const Skills = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isAutoRunning, setIsAutoRunning] = useState(true);
@@ -285,7 +288,6 @@ const Skills = ({ innerRef }) => {
   return (
     <section 
       id="skills" 
-      ref={innerRef} 
       className="min-h-screen flex items-center justify-center p-4 md:p-8 relative z-10"
     >
       <div className="container">

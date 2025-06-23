@@ -1,57 +1,102 @@
-import React, { useRef, useEffect, useState } from 'react'
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+'use client';
+
+import React, { useRef, useEffect, useState, useCallback } from 'react'
+import { motion, useScroll, useTransform, AnimatePresence, MotionValue } from 'framer-motion'
 import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import Image from 'next/image'
 
+interface Project {
+  title: string;
+  description: string;
+  longDescription: string;
+  technologies: string[];
+  icon: string;
+  images: string[];
+  features: string[];
+  github: string;
+  demo: string;
+}
+
+interface AnimationProps {
+  y: MotionValue<number>;
+  opacity: MotionValue<number>;
+  scale: MotionValue<number>;
+}
+
+// Move projects data outside component since it's static
+const projects: Project[] = [
+  {
+    title: "AI Chat Platform",
+    description: "A real-time chat application powered by artificial intelligence with natural language processing capabilities.",
+    longDescription: "This comprehensive AI chat platform revolutionizes communication by integrating advanced natural language processing with real-time messaging. Built with modern React architecture and powered by OpenAI's GPT models, it provides intelligent conversation assistance, automated responses, and contextual understanding. The platform features multi-user support, conversation history, file sharing, and advanced AI analytics.",
+    technologies: ["React", "Node.js", "OpenAI", "Socket.io", "MongoDB", "Redis"],
+    icon: "🤖",
+    images: [
+      "/project-1.jpg",
+      "/project-1.jpg",
+      "/project-1.jpg",
+    ],
+    features: ["Real-time messaging", "AI-powered responses", "Multi-user support", "File sharing", "Conversation history"],
+    github: "https://github.com/example/ai-chat",
+    demo: "https://ai-chat-demo.com"
+  },
+  {
+    title: "E-commerce Dashboard", 
+    description: "Comprehensive analytics dashboard for e-commerce businesses with real-time data visualization.",
+    longDescription: "A powerful business intelligence dashboard designed specifically for e-commerce operations. Features include real-time sales tracking, inventory management, customer analytics, and predictive forecasting. Built with Next.js for optimal performance and TypeScript for reliability, it integrates with multiple payment processors and provides actionable insights through interactive charts and reports.",
+    technologies: ["Next.js", "TypeScript", "Chart.js", "PostgreSQL", "Stripe", "AWS"],
+    icon: "📊",
+    images: [
+      "/project-1.jpg",
+      "/project-1.jpg",
+      "/project-1.jpg",
+    ],
+    features: ["Real-time analytics", "Inventory tracking", "Sales forecasting", "Customer insights", "Payment integration"],
+    github: "https://github.com/example/ecommerce-dashboard",
+    demo: "https://dashboard-demo.com"
+  },
+]
+
+const useCardAnimations = (index: number, scrollYProgress: MotionValue<number>): AnimationProps => {
+  const totalRange = 0.7 // 15% to 85%
+  const cardDuration = totalRange / projects.length
+  const startProgress = 0.15 + (index * cardDuration)
+  const centerProgress = startProgress + (cardDuration * 0.5)
+  const endProgress = startProgress + cardDuration
+
+  const y = useTransform(scrollYProgress, 
+    [startProgress, centerProgress, endProgress],
+    [400, 50, -300]
+  )
+
+  const opacity = useTransform(scrollYProgress,
+    [startProgress, startProgress + 0.05, endProgress - 0.05, endProgress],
+    [0, 1, 1, 0]
+  )
+
+  const scale = useTransform(scrollYProgress,
+    [startProgress, centerProgress, endProgress],
+    [0.6, 1, 0.2]
+  )
+
+  return { y, opacity, scale }
+}
+
 const Projects = () => {
-  const containerRef = useRef(null)
-  const [currentProject, setCurrentProject] = useState(0)
-  const [selectedProject, setSelectedProject] = useState(null)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [currentProject, setCurrentProject] = useState<number>(0)
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0)
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 640);
+  }, []);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   })
-
-  // Sample projects data with multiple images
-  const projects = [
-    {
-      title: "AI Chat Platform",
-      description: "A real-time chat application powered by artificial intelligence with natural language processing capabilities.",
-      longDescription: "This comprehensive AI chat platform revolutionizes communication by integrating advanced natural language processing with real-time messaging. Built with modern React architecture and powered by OpenAI's GPT models, it provides intelligent conversation assistance, automated responses, and contextual understanding. The platform features multi-user support, conversation history, file sharing, and advanced AI analytics.",
-      technologies: ["React", "Node.js", "OpenAI", "Socket.io", "MongoDB", "Redis"],
-      icon: "🤖",
-      images: [
-        "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=600&fit=crop"
-      ],
-      features: ["Real-time messaging", "AI-powered responses", "Multi-user support", "File sharing", "Conversation history"],
-      github: "https://github.com/example/ai-chat",
-      demo: "https://ai-chat-demo.com"
-    },
-    {
-      title: "E-commerce Dashboard", 
-      description: "Comprehensive analytics dashboard for e-commerce businesses with real-time data visualization.",
-      longDescription: "A powerful business intelligence dashboard designed specifically for e-commerce operations. Features include real-time sales tracking, inventory management, customer analytics, and predictive forecasting. Built with Next.js for optimal performance and TypeScript for reliability, it integrates with multiple payment processors and provides actionable insights through interactive charts and reports.",
-      technologies: ["Next.js", "TypeScript", "Chart.js", "PostgreSQL", "Stripe", "AWS"],
-      icon: "📊",
-      images: [
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1579952363873-27d3bfad9c0d?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?w=800&h=600&fit=crop",
-        "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&h=600&fit=crop"
-      ],
-      features: ["Real-time analytics", "Inventory tracking", "Sales forecasting", "Customer insights", "Payment integration"],
-      github: "https://github.com/example/ecommerce-dashboard",
-      demo: "https://dashboard-demo.com"
-    },
-  ]
 
   // Reset image index when project changes
   useEffect(() => {
@@ -61,23 +106,23 @@ const Projects = () => {
   }, [selectedProject])
 
   // Navigation functions for slideshow
-  const nextImage = () => {
+  const nextImage = useCallback(() => {
     if (selectedProject) {
       setCurrentImageIndex((prev) => 
         prev === selectedProject.images.length - 1 ? 0 : prev + 1
       )
     }
-  }
+  }, [selectedProject])
 
-  const prevImage = () => {
+  const prevImage = useCallback(() => {
     if (selectedProject) {
       setCurrentImageIndex((prev) => 
         prev === 0 ? selectedProject.images.length - 1 : prev - 1
       )
     }
-  }
+  }, [selectedProject])
 
-  const goToImage = (index) => {
+  const goToImage = (index: number) => {
     setCurrentImageIndex(index)
   }
 
@@ -90,7 +135,7 @@ const Projects = () => {
       
       return () => clearInterval(interval)
     }
-  }, [selectedProject, currentImageIndex, nextImage])
+  }, [selectedProject, nextImage])
 
   // Black hole movement and scale - responsive sizing
   const blackHoleY = useTransform(scrollYProgress, [0, 0.15, 1], [0, -350, -350])
@@ -99,9 +144,9 @@ const Projects = () => {
   // Section opacity - fade out after all projects shown
   const sectionOpacity = useTransform(scrollYProgress, [0.85, 1], [1, 0])
 
-  // Calculate current project
+  // Calculate current project - removed projects.length dependency
   useEffect(() => {
-    const unsubscribe = scrollYProgress.onChange((progress) => {
+    const unsubscribe = scrollYProgress.onChange((progress: number) => {
       if (progress <= 0.15) {
         setCurrentProject(0)
       } else if (progress >= 0.85) {
@@ -116,36 +161,14 @@ const Projects = () => {
       }
     })
     return unsubscribe
-  }, [scrollYProgress, projects.length])
+  }, [scrollYProgress])
 
-  // Project card animations
-    const createCardAnimations = (index) => {
-    const totalRange = 0.7 // 15% to 85%
-    const cardDuration = totalRange / projects.length
-    const startProgress = 0.15 + (index * cardDuration)
-    const centerProgress = startProgress + (cardDuration * 0.5)
-    const endProgress = startProgress + cardDuration
-
-    const y = useTransform(scrollYProgress, 
-      [startProgress, centerProgress, endProgress],
-      [400, 50, -300]
-    )
-
-    const opacity = useTransform(scrollYProgress,
-      [startProgress, startProgress + 0.05, endProgress - 0.05, endProgress],
-      [0, 1, 1, 0]
-    )
-
-    const scale = useTransform(scrollYProgress,
-      [startProgress, centerProgress, endProgress],
-      [0.6, 1, 0.2]
-    )
-
-    return { y, opacity, scale }
-  }
-
-  // Create animations for all projects at the top level
-  const projectAnimations = projects.map((_, index) => createCardAnimations(index))
+  // Call hooks for each project at the top level
+  const projectAnimations: AnimationProps[] = [
+    useCardAnimations(0, scrollYProgress),
+    useCardAnimations(1, scrollYProgress),
+    // Add more if you have more projects
+  ]
 
   return (
     <>
@@ -223,7 +246,7 @@ const Projects = () => {
 
           {/* Responsive Project Cards - Much Bigger */}
           {projects.map((project, index) => {
-            const { y, opacity, scale } = projectAnimations[index]
+            const { y, opacity, scale } =  projectAnimations[index]
             
             return (
               <motion.div
@@ -243,14 +266,14 @@ const Projects = () => {
                         </div>
                         <p className="text-gray-300 text-xs sm:text-sm lg:text-base mb-3 sm:mb-4 leading-relaxed line-clamp-2 sm:line-clamp-3 lg:line-clamp-4">{project.description}</p>
                         <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4">
-                          {project.technologies.slice(0, typeof window !== 'undefined' && window.innerWidth < 640 ? 3 : 4).map((tech, i) => (
+                          {project.technologies.slice(0, isMobile ? 3 : 4).map((tech, i) => (
                             <span key={i} className="px-2 sm:px-3 py-1 bg-orange-600/40 text-orange-200 text-xs sm:text-sm rounded-full border border-orange-500/30">
                               {tech}
                             </span>
                           ))}
-                          {project.technologies.length > (typeof window !== 'undefined' && window.innerWidth < 640 ? 3 : 4) && (
+                          {project.technologies.length > (isMobile ? 3 : 4) && (
                             <span className="px-2 sm:px-3 py-1 bg-gray-600/40 text-gray-300 text-xs sm:text-sm rounded-full border border-gray-500/30">
-                              +{project.technologies.length - (typeof window !== 'undefined' && window.innerWidth < 640 ? 3 : 4)} more
+                              +{project.technologies.length - (isMobile ? 3 : 4)} more
                             </span>
                           )}
                         </div>
@@ -282,7 +305,7 @@ const Projects = () => {
           })}
 
           {/* Enhanced floating particles - responsive */}
-          {[...Array(typeof window !== 'undefined' && window.innerWidth < 640 ? 8 : 12)].map((_, i) => (
+          {[...Array(isMobile ? 8 : 12)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 bg-orange-400 rounded-full pointer-events-none z-0"

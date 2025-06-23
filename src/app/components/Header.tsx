@@ -4,7 +4,12 @@ import { useState, useEffect } from 'react';
 import { Menu, X, Home, User, Code, Briefcase, FolderOpen, Mail } from 'lucide-react';
 import Image from 'next/image';
 
-const navLinks = [
+interface NavLink {
+  name: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const navLinks: NavLink[] = [
   { name: 'home', icon: Home },
   { name: 'about', icon: User },
   { name: 'skills', icon: Code },
@@ -13,9 +18,11 @@ const navLinks = [
   { name: 'contact', icon: Mail }
 ];
 
+type SectionName = typeof navLinks[number]['name'];
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState<SectionName>('home');
   const [scrolled, setScrolled] = useState(false);
 
   // Handle scroll effect
@@ -57,13 +64,12 @@ const Header = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const handleLinkClick = (sectionName) => {
+  const handleLinkClick = (sectionName: SectionName) => {
     setActiveSection(sectionName);
     setIsMenuOpen(false);
     
     const element = document.getElementById(sectionName);
     if (element) {
-      // Use CSS scroll-behavior instead of JavaScript smooth scrolling
       element.scrollIntoView({ block: 'start' });
     }
   };
@@ -137,7 +143,7 @@ const Header = () => {
         <div className={`lg:hidden transition-all duration-300 overflow-hidden ${
           isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}>
-          <div className="bg-black/95  backdrop-blur-md border-t border-gray-800/50 shadow-2xl">
+          <div className="bg-black/95 backdrop-blur-md border-t border-gray-800/50 shadow-2xl">
             <nav className="container mx-auto px-4 py-4 space-y-2">
               {navLinks.map((link) => {
                 const Icon = link.icon;

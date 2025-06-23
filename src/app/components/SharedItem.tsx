@@ -2,7 +2,27 @@
 import { motion } from 'framer-motion';
 import EarthCanvas from './canvas/Earth';
 
-const sectionPositions = {
+// Define type for section positions
+interface SectionConfig {
+  x?: string;
+  y?: string;
+  visible: boolean;
+}
+
+// Define type for section positions object
+interface SectionPositions {
+  [key: string]: SectionConfig;
+}
+
+// Define valid section keys as a type
+type SectionKey = 'hero' | 'about' | 'skills' | 'projects' | 'contact';
+
+// Define props interface for the component
+interface SharedItemProps {
+  section: SectionKey;
+}
+
+const sectionPositions: SectionPositions = {
   hero: { x: '20vw', y: '30vh', visible: true },
   about: { x: '80vw', y: '40vh', visible: true },
   skills: { visible: false },
@@ -10,7 +30,7 @@ const sectionPositions = {
   contact: { visible: false },
 };
 
-const SharedItem = ({ section }) => {
+const SharedItem = ({ section }: SharedItemProps) => {
   const config = sectionPositions[section] || { visible: false };
 
   if (!config.visible) return null;

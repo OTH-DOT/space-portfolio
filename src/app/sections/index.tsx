@@ -1,23 +1,24 @@
 'use client';
+
+import dynamic from 'next/dynamic';
 import { useInView } from 'react-intersection-observer';
-import Hero from '../components/Hero';
-import About from '../components/About';
-import Skills from '../components/Skills';
-import Projects from '../components/Projects';
-import Works from '../components/Works';
-import Contact from '../components/Contact';
-import StarsCanvas from '../components/canvas/Stars';
+
+// Dynamically import components with SSR disabled
+const Hero = dynamic(() => import('../components/Hero'), { ssr: false });
+const About = dynamic(() => import('../components/About'), { ssr: false });
+const Skills = dynamic(() => import('../components/Skills'), { ssr: false });
+const Projects = dynamic(() => import('../components/Projects'), { ssr: false });
+const Works = dynamic(() => import('../components/Works'), { ssr: false });
+const Contact = dynamic(() => import('../components/Contact'), { ssr: false });
+const StarsCanvas = dynamic(() => import('../components/canvas/Stars'), { ssr: false });
 
 const Sections = () => {
-
   const [heroRef] = useInView({ threshold: 0.3 });
   const [aboutRef] = useInView({ threshold: 0.3 });
   const [skillsRef] = useInView({ threshold: 0.3 });
-  const [projectsRef] = useInView({ threshold: 0.1 }); // Lower threshold for Projects
+  const [projectsRef] = useInView({ threshold: 0.1 });
   const [worksRef] = useInView({ threshold: 0.3 });
   const [contactRef] = useInView({ threshold: 0.3 });
-
-
 
   return (
     <>
@@ -39,7 +40,7 @@ const Sections = () => {
         <Projects />
       </section>
       
-      <section ref={worksRef}> {/* Fixed: separate section for Works */}
+      <section ref={worksRef}>
         <Works />
       </section>
       

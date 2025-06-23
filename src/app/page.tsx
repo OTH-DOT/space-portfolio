@@ -1,9 +1,11 @@
 'use client';
 
-import Footer from "./components/Footer";
+import dynamic from 'next/dynamic';
 import Header from "./components/Header";
-import Sections from "./sections";
+import Footer from "./components/Footer";
 
+// Dynamically load the client-only Sections component
+const Sections = dynamic(() => import("./sections"), { ssr: false });
 
 export default function Home() {
   return (

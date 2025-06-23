@@ -1,17 +1,20 @@
+'use client';
+
 import { useRef, useEffect } from 'react'
 import * as THREE from 'three'
 
 const StarsCanvas = () => {
-  const mountRef = useRef(null)
-  const sceneRef = useRef(null)
-  const rendererRef = useRef(null)
-  const starsRef = useRef(null)
-  const animationIdRef = useRef(null)
+  const mountRef = useRef<HTMLDivElement>(null)
+  const sceneRef = useRef<THREE.Scene | null>(null)
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null)
+  const starsRef = useRef<THREE.Points<THREE.BufferGeometry, THREE.PointsMaterial> | null>(null)
+  const animationIdRef = useRef<number | null>(null)
 
   useEffect(() => {
     if (!mountRef.current) return
 
-    const mount = mountRef.current 
+    // Capture the mount element in a variable for cleanup
+    const mount: HTMLDivElement = mountRef.current 
 
     // Scene setup
     const scene = new THREE.Scene()
@@ -20,8 +23,6 @@ const StarsCanvas = () => {
     
     renderer.setSize(window.innerWidth, window.innerHeight)
     renderer.setClearColor(0x000000, 1)
-    mountRef.current.appendChild(renderer.domElement)
-
     mount.appendChild(renderer.domElement)
 
     // Create star geometry with varying brightness
@@ -68,6 +69,7 @@ const StarsCanvas = () => {
     canvas.width = 32
     canvas.height = 32
     const context = canvas.getContext('2d')
+    if (!context) return
     
     // Create radial gradient for circular star
     const gradient = context.createRadialGradient(
@@ -125,8 +127,6 @@ const StarsCanvas = () => {
 
     // Handle resize
     const handleResize = () => {
-      if (!camera || !renderer) return
-      
       camera.aspect = window.innerWidth / window.innerHeight
       camera.updateProjectionMatrix()
       renderer.setSize(window.innerWidth, window.innerHeight)
@@ -142,21 +142,14 @@ const StarsCanvas = () => {
         cancelAnimationFrame(animationIdRef.current)
       }
       
-      if (mountRef.current && renderer.domElement) {
-        mountRef.current.removeChild(renderer.domElement)
+      if (mount && renderer.domElement && mount.contains(renderer.domElement)) {
+        mount.removeChild(renderer.domElement)
       }
       
-      if (renderer) {
-        renderer.dispose()
-      }
-      
-      if (starGeometry) {
-        starGeometry.dispose()
-      }
-      
-      if (starMaterial) {
-        starMaterial.dispose()
-      }
+      renderer.dispose()
+      starGeometry.dispose()
+      starMaterial.dispose()
+      texture.dispose()
     }
   }, [])
 
