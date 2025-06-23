@@ -132,7 +132,7 @@ const Footer = () => {
         <div className="flex flex-col sm:flex-row items-center justify-between pt-6 mt-6 border-t border-gray-700/50">
           <a 
             href="#home" 
-            className="mb-4 sm:mb-0 hover:scale-110 w-28 h-28 transition-transform duration-300"
+            className="mb-4 flex items-center justify-center sm:mb-0 hover:scale-110 w-28 h-28 transition-transform duration-300"
           >
               <Image 
                 src="/OTH_LOGO.svg"

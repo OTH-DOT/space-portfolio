@@ -70,7 +70,7 @@ const Contact = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center max-md:mb-8"
+          className="text-center max-lg:mb-8"
         >
           <motion.p
             initial={{ opacity: 0 }}
