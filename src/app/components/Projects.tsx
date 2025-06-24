@@ -14,7 +14,7 @@ interface Project {
   images: string[];
   features: string[];
   github: string;
-  demo: string;
+  demo: string | null;
 }
 
 interface AnimationProps {
@@ -23,39 +23,51 @@ interface AnimationProps {
   scale: MotionValue<number>;
 }
 
-// Move projects data outside component since it's static
 const projects: Project[] = [
   {
-    title: "AI Chat Platform",
-    description: "A real-time chat application powered by artificial intelligence with natural language processing capabilities.",
-    longDescription: "This comprehensive AI chat platform revolutionizes communication by integrating advanced natural language processing with real-time messaging. Built with modern React architecture and powered by OpenAI's GPT models, it provides intelligent conversation assistance, automated responses, and contextual understanding. The platform features multi-user support, conversation history, file sharing, and advanced AI analytics.",
-    technologies: ["React", "Node.js", "OpenAI", "Socket.io", "MongoDB", "Redis"],
-    icon: "🤖",
+    title: "Nommio – Restaurant Management Platform",
+    description: "A comprehensive multi-branch restaurant management system with role-based interfaces.",
+    longDescription: "Nommio is a full-featured restaurant management platform supporting all operational aspects across multiple branches. The system provides specialized interfaces for administrators, managers, chefs, delivery personnel, and customers. It streamlines operations from order management to delivery tracking while ensuring secure transactions and real-time communication between all stakeholders.",
+    technologies: ["ReactJS", "Laravel", "Express.js", "MySQL", "MongoDB", "JWT", "Stripe", "Socket.io", "Cloudinary", "Tailwind CSS"],
+    icon: "🍽️",
     images: [
-      "/project-1.jpg",
-      "/project-1.jpg",
-      "/project-1.jpg",
+      "/nommio/image1.png",
+      "/nommio/image2.png",
+      "/nommio/image3.png",
     ],
-    features: ["Real-time messaging", "AI-powered responses", "Multi-user support", "File sharing", "Conversation history"],
-    github: "https://github.com/example/ai-chat",
-    demo: "https://ai-chat-demo.com"
+    features: [
+      "Role-based access control (5 interfaces)",
+      "Secure JWT authentication",
+      "Online payments with Stripe integration",
+      "Real-time messaging with Socket.io",
+      "Interactive statistics dashboard",
+      "Multi-branch management"
+    ],
+    github: "https://github.com/OTH-DOT/Nommio",
+    demo: null
   },
   {
-    title: "E-commerce Dashboard", 
-    description: "Comprehensive analytics dashboard for e-commerce businesses with real-time data visualization.",
-    longDescription: "A powerful business intelligence dashboard designed specifically for e-commerce operations. Features include real-time sales tracking, inventory management, customer analytics, and predictive forecasting. Built with Next.js for optimal performance and TypeScript for reliability, it integrates with multiple payment processors and provides actionable insights through interactive charts and reports.",
-    technologies: ["Next.js", "TypeScript", "Chart.js", "PostgreSQL", "Stripe", "AWS"],
-    icon: "📊",
+    title: "NextSkill – E-Learning Platform",
+    description: "Interactive online learning platform with course tracking and quiz functionality.",
+    longDescription: "NextSkill is a modern e-learning solution that enables users to enroll in courses, track their learning progress, and complete assessments. The platform features responsive course content, progress visualization, and interactive quizzes. Built with ReactJS for the frontend and Laravel for the backend, it provides a seamless learning experience across devices with clean, intuitive interfaces for both students and instructors.",
+    technologies: ["ReactJS", "Laravel", "MySQL", "Stripe", "Tailwind CSS"],
+    icon: "🎓",
     images: [
-      "/project-1.jpg",
-      "/project-1.jpg",
-      "/project-1.jpg",
+      "/nextskill/image1.png",
+      "/nextskill/image2.png",
+      "/nextskill/image3.png",
     ],
-    features: ["Real-time analytics", "Inventory tracking", "Sales forecasting", "Customer insights", "Payment integration"],
-    github: "https://github.com/example/ecommerce-dashboard",
-    demo: "https://dashboard-demo.com"
-  },
-]
+    features: [
+      "Course enrollment system",
+      "Progress tracking",
+      "Interactive quizzes",
+      "Responsive design",
+      "User-friendly dashboard"
+    ],
+    github: "https://github.com/OTH-DOT/NextSkill",
+    demo: null
+  }
+];
 
 const useCardAnimations = (index: number, scrollYProgress: MotionValue<number>): AnimationProps => {
   const totalRange = 0.7 // 15% to 85%
@@ -256,13 +268,13 @@ const Projects = () => {
                 onClick={() => setSelectedProject(project)}
               >
                 <div className="w-full h-[320px] sm:h-[400px] lg:h-[480px] bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-md border border-orange-500/40 rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl hover:border-orange-400/60 transition-all duration-300">
-                  <div className="flex flex-col md:flex-row h-full">
+                  <div className="flex flex-col-reverse md:flex-row h-full">
                     {/* Content Section - Responsive */}
-                    <div className="flex-1 p-4 sm:p-6 lg:p-8 flex flex-col justify-between min-h-0">
+                    <div className="flex-1 p-4 sm:p-6 lg:p-8 flex flex-col mb-12 justify-between min-h-0">
                       <div className="flex-1">
                         <div className="flex items-center mb-3 sm:mb-4">
                           <span className="text-2xl sm:text-3xl lg:text-4xl mr-2 sm:mr-3">{project.icon}</span>
-                          <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white truncate">{project.title}</h3>
+                          <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white  whitespace-normal break-words">{project.title}</h3>
                         </div>
                         <p className="text-gray-300 text-xs sm:text-sm lg:text-base mb-3 sm:mb-4 leading-relaxed line-clamp-2 sm:line-clamp-3 lg:line-clamp-4">{project.description}</p>
                         <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4">
