@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, Variants, easeOut, backOut } from 'framer-motion';
 
 interface Experience {
   title: string;
@@ -37,7 +37,7 @@ const containerVariants = {
   },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: (isLeft: boolean) => ({
     opacity: 0,
     x: isLeft ? -100 : 100,
@@ -49,12 +49,12 @@ const cardVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: "easeOut",
+      ease: easeOut,
     },
   },
 };
 
-const iconVariants = {
+const iconVariants:Variants = {
   hidden: { 
     scale: 0, 
     rotate: -180,
@@ -66,7 +66,7 @@ const iconVariants = {
     opacity: 1,
     transition: {
       duration: 0.5,
-      ease: "backOut",
+      ease: backOut,
       delay: 0.2,
     },
   },
