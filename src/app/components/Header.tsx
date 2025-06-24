@@ -105,7 +105,7 @@ const Header = () => {
                   <button
                     key={link.name}
                     onClick={() => handleLinkClick(link.name)}
-                    className={`group flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-300 ${
+                    className={`group flex items-center cursor-pointer space-x-2 px-4 py-2 rounded-full transition-all duration-300 ${
                       isActive
                         ? 'bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-blue-500/20 text-white shadow-lg shadow-purple-500/20 border border-purple-500/30'
                         : 'text-gray-300 hover:text-white hover:bg-white/5 hover:border-gray-600/30 border border-transparent'
@@ -128,7 +128,7 @@ const Header = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={toggleMenu}
-              className="lg:hidden p-2 rounded-lg bg-white/5 hover:bg-gradient-to-r hover:from-purple-500/10 hover:to-pink-500/10 transition-all duration-200 border border-gray-700/50 hover:border-purple-500/30"
+              className="lg:hidden p-2 rounded-lg cursor-pointer bg-white/5 hover:bg-gradient-to-r hover:from-purple-500/10 hover:to-pink-500/10 transition-all duration-200 border border-gray-700/50 hover:border-purple-500/30"
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6 text-white" />
@@ -153,7 +153,7 @@ const Header = () => {
                   <button
                     key={link.name}
                     onClick={() => handleLinkClick(link.name)}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+                    className={`w-full flex items-center cursor-pointer space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                       isActive
                         ? 'bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-blue-500/20 text-white shadow-lg shadow-purple-500/10 border border-purple-500/30'
                         : 'text-gray-300 hover:text-white hover:bg-white/5 hover:border-gray-600/30 border border-transparent'

@@ -86,7 +86,7 @@ const Hero = () => {
           >
             <button
               onClick={scrollToContact}
-              className="group px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full text-white font-medium hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+              className="group px-8 py-4 cursor-pointer bg-gradient-to-r from-purple-500 to-blue-500 rounded-full text-white font-medium hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
             >
               Let&apos;s build something
               <Zap className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
@@ -94,7 +94,7 @@ const Hero = () => {
             
             <button
               onClick={downloadCV}
-              className="group px-8 py-4 border-2 border-purple-400/30 rounded-full text-white font-medium hover:bg-purple-400/10 hover:border-purple-400/60 transition-all duration-300 flex items-center justify-center gap-2"
+              className="group px-8 py-4 cursor-pointer border-2 border-purple-400/30 rounded-full text-white font-medium hover:bg-purple-400/10 hover:border-purple-400/60 transition-all duration-300 flex items-center justify-center gap-2"
             >
               <Download className="w-4 h-4 group-hover:translate-y-1 transition-transform duration-300" />
               Download CV
