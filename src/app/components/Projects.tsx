@@ -536,15 +536,17 @@ const Projects = () => {
                     <span className="mr-2">📁</span>
                     View Code
                   </a>
-                  <a 
-                    href={selectedProject.demo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors flex items-center justify-center text-sm sm:text-base"
-                  >
-                    <span className="mr-2">🚀</span>
-                    Live Demo
-                  </a>
+                  {selectedProject.demo && (
+                    <a 
+                      href={selectedProject.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 sm:px-6 py-2 sm:py-3 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors flex items-center justify-center text-sm sm:text-base"
+                    >
+                      <span className="mr-2">🚀</span>
+                      Live Demo
+                    </a>
+                  )}
                 </div>
               </div>
             </motion.div>
