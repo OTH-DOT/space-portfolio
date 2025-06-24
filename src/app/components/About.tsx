@@ -3,8 +3,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Copy } from 'lucide-react';
-import EarthCanvas from './canvas/Earth';
+// import EarthCanvas from './canvas/Earth';
 import Astronaut from './animations/Astronaut';
+import dynamic from 'next/dynamic'
+import TimeZone from './animations/timeZone';
+
+
+const EarthCanvas = dynamic(() => import('./canvas/Earth'), { ssr: false });
 
 interface Contact {
   id: number;
@@ -293,8 +298,11 @@ const About = () => {
                   <h3 className="text-xl md:text-2xl font-bold text-white mb-1">Time Zone</h3>
                   <p className="text-purple-300 text-sm">Available across all timezones</p>
                 </div>
-                <div className={`${isMobile ? '' : 'absolute -right-15 -bottom-15'} w-full h-full`}>
-                  {isClient && <EarthCanvas />}
+                <div className="relative flex items-center justify-center">
+                <div className={`${isMobile ? '' : 'absolute lg:bottom-10 xl:bottom-20'} w-full h-full`}>
+                  {/* {isClient && <EarthCanvas />} */}
+                  <TimeZone />
+                </div>
                 </div>
               </div>
             </div>

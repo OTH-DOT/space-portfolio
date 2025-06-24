@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   // images: {
   //   domains: ['images.unsplash.com', 'cdn.example.com'],
   // },
+  transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
 };
 
 export default nextConfig;
