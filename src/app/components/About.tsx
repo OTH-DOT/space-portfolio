@@ -5,11 +5,11 @@ import { motion } from 'framer-motion';
 import { Copy } from 'lucide-react';
 // import EarthCanvas from './canvas/Earth';
 import Astronaut from './animations/Astronaut';
-import dynamic from 'next/dynamic'
+// import dynamic from 'next/dynamic'
 import TimeZone from './animations/timeZone';
 
 
-const EarthCanvas = dynamic(() => import('./canvas/Earth'), { ssr: false });
+// const EarthCanvas = dynamic(() => import('./canvas/Earth'), { ssr: false });
 
 interface Contact {
   id: number;
